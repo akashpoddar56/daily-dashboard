@@ -1,0 +1,2319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — Akash Poddar</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- Google Identity Services -->
+<script src="https://accounts.google.com/gsi/client" async></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style data-inline="colors_and_type.css">
+/* =========================================================
+   Akash Poddar — Design System
+   colors_and_type.css
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* Brand font — Arial Unicode (uploaded) */
+@font-face {
+  font-family: 'Arial Unicode';
+  src: url('fonts/Arial_Unicode.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* -------- Color: Paper & Ink -------- */
+  --paper:        #FAFAF7;   /* default background — warm off-white */
+  --paper-deep:   #F2F1EC;   /* subtly darker surface for sections  */
+  --ink:          #0E0E0C;   /* default text + structural rules     */
+  --graphite:     #2B1F14;   /* rare warm-black for display serif   */
+
+  /* -------- Color: Neutral scale (warm grays) -------- */
+  --n-50:  #F5F4EF;
+  --n-100: #EAE8E0;
+  --n-200: #D5D2C7;
+  --n-300: #B3AFA2;
+  --n-400: #8A8678;
+  --n-500: #60594D;
+  --n-600: #3F3A30;
+  --n-700: #24211B;
+  --n-900: #0E0E0C;
+
+  /* -------- Semantic color tokens -------- */
+  --bg:           var(--paper);
+  --bg-deep:      var(--paper-deep);
+  --surface:      var(--paper);
+  --surface-alt:  var(--n-50);
+
+  --fg-1:         var(--ink);        /* primary text         */
+  --fg-2:         var(--n-600);      /* secondary text       */
+  --fg-3:         var(--n-400);      /* tertiary / captions  */
+  --fg-on-ink:    var(--paper);      /* text on dark fills   */
+
+  --rule-soft:    var(--n-200);      /* hairline separators  */
+  --rule-strong:  var(--ink);        /* structural rules     */
+
+  --link:         var(--ink);
+  --link-hover:   #000;
+
+  /* -------- Typography: Families -------- */
+  --font-serif:   'Source Serif 4', 'Source Serif Pro', Georgia, 'Times New Roman', serif;
+  --font-sans:    'Arial Unicode', 'Arial Unicode MS', Arial, Helvetica, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* -------- Typography: Scale (desktop) -------- */
+  --fs-display:   clamp(48px, 6vw, 80px);   /* editorial hero         */
+  --fs-h1:        clamp(36px, 4vw, 56px);
+  --fs-h2:        clamp(28px, 3vw, 40px);
+  --fs-h3:        24px;
+  --fs-h4:        18px;
+  --fs-body-lg:   18px;
+  --fs-body:      16px;
+  --fs-body-sm:   14px;
+  --fs-label:     11px;
+
+  --lh-tight:     1.1;
+  --lh-snug:      1.25;
+  --lh-body:      1.6;
+  --lh-loose:     1.75;
+
+  --ls-display:   -0.02em;
+  --ls-tight:     -0.01em;
+  --ls-normal:    0;
+  --ls-label:     0.12em;
+
+  /* -------- Spacing: 4px base -------- */
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   20px;
+  --space-6:   24px;
+  --space-8:   32px;
+  --space-10:  40px;
+  --space-12:  48px;
+  --space-16:  64px;
+  --space-20:  80px;
+  --space-24:  96px;
+  --space-32:  128px;
+
+  /* -------- Radii -------- */
+  --radius-none: 0;
+  --radius-sm:   2px;   /* inputs, buttons */
+  --radius-md:   4px;   /* cards           */
+  --radius-lg:   6px;   /* rare            */
+
+  /* -------- Shadows (used sparingly) -------- */
+  --shadow-card:   0 1px 2px rgba(14, 14, 12, 0.04), 0 4px 16px rgba(14, 14, 12, 0.06);
+  --shadow-menu:   0 1px 1px rgba(14, 14, 12, 0.04), 0 8px 24px rgba(14, 14, 12, 0.08);
+
+  /* -------- Motion -------- */
+  --ease-out:     cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-in-out:  cubic-bezier(0.4, 0.2, 0.2, 1);
+  --dur-fast:     160ms;
+  --dur-base:     220ms;
+  --dur-slow:     320ms;
+
+  /* -------- Layout -------- */
+  --content-w:    1200px;
+  --text-w:       68ch;
+  --gutter:       32px;
+  --gutter-sm:    16px;
+  --header-h:     72px;
+}
+
+/* =========================================================
+   Semantic element styles
+   Apply by either using raw tags inside .prose, or by
+   applying utility classes (.h1, .label, .prose, etc).
+   ========================================================= */
+
+html, body {
+  background: var(--bg);
+  color: var(--fg-1);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Display + headings */
+.display, h1.display {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: var(--fs-display);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-display);
+  color: var(--graphite);
+}
+
+h1, .h1 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: var(--fs-h1);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-display);
+  color: var(--fg-1);
+  margin: 0 0 var(--space-6);
+}
+
+h2, .h2 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: var(--fs-h2);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-tight);
+  color: var(--fg-1);
+  margin: 0 0 var(--space-4);
+}
+
+h3, .h3 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: var(--fs-h3);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-tight);
+  color: var(--fg-1);
+  margin: 0 0 var(--space-3);
+}
+
+h4, .h4 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: var(--fs-h4);
+  line-height: var(--lh-snug);
+  color: var(--fg-1);
+  margin: 0 0 var(--space-2);
+}
+
+p, .p {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--fg-1);
+  margin: 0 0 var(--space-4);
+}
+
+.lead {
+  font-family: var(--font-serif);
+  font-size: var(--fs-body-lg);
+  line-height: var(--lh-loose);
+  color: var(--fg-2);
+  font-style: italic;
+}
+
+small, .small {
+  font-size: var(--fs-body-sm);
+  color: var(--fg-2);
+}
+
+.label {
+  font-family: var(--font-sans);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: var(--ls-label);
+  color: var(--fg-3);
+}
+
+code, .code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  color: var(--fg-1);
+  background: var(--n-50);
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+}
+
+a {
+  color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-thickness var(--dur-fast) var(--ease-out);
+}
+a:hover {
+  color: var(--link-hover);
+  text-decoration-thickness: 2px;
+}
+
+/* .prose — long-form text scope */
+.prose {
+  font-family: var(--font-sans);
+  color: var(--fg-1);
+  max-width: var(--text-w);
+}
+.prose p { margin: 0 0 var(--space-5); }
+.prose h2 { margin-top: var(--space-10); }
+.prose h3 { margin-top: var(--space-8); }
+.prose blockquote {
+  border-left: 2px solid var(--ink);
+  padding-left: var(--space-5);
+  margin: var(--space-6) 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--fg-2);
+}
+
+/* Horizontal rules */
+hr, .rule {
+  border: 0;
+  border-top: 1px solid var(--rule-strong);
+  margin: var(--space-8) 0;
+}
+.rule-soft { border-top-color: var(--rule-soft); }
+
+/* Selection */
+::selection { background: var(--ink); color: var(--paper); }
+
+</style>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--fg-1);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;min-height:100vh;}
+body.dark{--paper:#0E0E0C;--paper-deep:#1a1a17;--ink:#FAFAF7;--graphite:#e8e4dc;--bg:#0E0E0C;--bg-deep:#1a1a17;--surface:#0E0E0C;--surface-alt:#1a1a17;--fg-1:#FAFAF7;--fg-2:#B3AFA2;--fg-3:#60594D;--fg-on-ink:#0E0E0C;--rule-soft:#2a2a25;--rule-strong:#FAFAF7;--n-50:#1a1a17;--n-100:#242420;--n-200:#2e2e29;--n-300:#3f3a30;--n-400:#60594d;--n-500:#8a8678;--n-600:#b3afa2;}
+
+.dash-shell{display:flex;flex-direction:column;min-height:100vh;}
+.dash-topbar{border-top:1px solid var(--rule-strong);border-bottom:1px solid var(--rule-soft);padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:20;background:rgba(250,250,247,0.94);backdrop-filter:blur(12px);}
+body.dark .dash-topbar{background:rgba(14,14,12,0.94);}
+.dash-greeting{font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--fg-2);}
+.dash-date{font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:0.12em;color:var(--fg-3);}
+.dash-clock{font-family:var(--font-mono);font-size:22px;color:var(--fg-1);letter-spacing:-0.01em;}
+.dash-main{flex:1;padding:32px 40px 64px;max-width:1440px;margin:0 auto;width:100%;}
+
+.dash-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:1px;border:1px solid var(--rule-soft);background:var(--rule-soft);}
+.dash-card{background:var(--paper);padding:24px;display:flex;flex-direction:column;gap:16px;}
+body.dark .dash-card{background:var(--paper);}
+.dash-card.span-8{grid-column:span 8;}
+.dash-card.span-4{grid-column:span 4;}
+.dash-card.span-6{grid-column:span 6;}
+.dash-card.span-5{grid-column:span 5;}
+.dash-card.span-7{grid-column:span 7;}
+.dash-card.span-12{grid-column:span 12;}
+.dash-card.span-3{grid-column:span 3;}
+
+.card-label{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.14em;color:var(--fg-3);display:flex;align-items:center;gap:8px;}
+.card-label-dot{width:6px;height:6px;border-radius:50%;background:var(--fg-3);}
+.card-label-dot.live{background:#4a7c59;}
+.card-rule{height:1px;background:var(--rule-soft);flex-shrink:0;}
+
+/* Finance */
+.finance-net-amount{font-family:var(--font-mono);font-size:38px;letter-spacing:-0.02em;color:var(--fg-1);}
+.finance-delta{font-family:var(--font-mono);font-size:12px;color:#4a7c59;margin-top:2px;margin-bottom:16px;}
+.accounts-list{display:flex;flex-direction:column;}
+.account-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--rule-soft);}
+.account-row:last-child{border-bottom:none;}
+.account-name{font-size:14px;font-weight:500;color:var(--fg-1);}
+.account-bank{font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--fg-3);}
+.account-amount{font-family:var(--font-mono);font-size:15px;color:var(--fg-1);}
+/* Spending interactive */
+.spend-cat-row{display:flex;flex-direction:column;border-bottom:1px solid var(--rule-soft);cursor:pointer;transition:background .15s;}
+.spend-cat-row:last-child{border-bottom:none;}
+.spend-cat-row:hover{background:var(--surface-alt);margin:0 -24px;padding:0 24px;}
+.spend-cat-header{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:12px;padding:10px 0;}
+.spend-cat-name{font-size:13px;font-weight:500;color:var(--fg-1);}
+.spend-cat-amt{font-family:var(--font-mono);font-size:12px;color:var(--fg-1);white-space:nowrap;}
+.spend-cat-chevron{font-size:10px;color:var(--fg-3);transition:transform .2s;}
+.spend-cat-chevron.open{transform:rotate(180deg);}
+.spend-cat-bar{height:2px;background:var(--n-100);margin-bottom:6px;}
+.spend-cat-fill{height:2px;transition:width .5s var(--ease-out);}
+.spend-detail{display:flex;flex-direction:column;gap:0;padding-bottom:10px;animation:fadeIn .18s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.spend-txn{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:baseline;padding:6px 0;border-top:1px solid var(--rule-soft);}
+.spend-txn-name{font-size:12px;color:var(--fg-2);}
+.spend-txn-date{font-size:10px;color:var(--fg-3);margin-top:1px;}
+.spend-txn-amount{font-family:var(--font-mono);font-size:12px;color:var(--fg-1);}
+.spend-add-row{display:flex;gap:6px;margin-top:8px;padding-top:8px;border-top:1px dashed var(--rule-soft);}
+.spend-add-input{flex:1;font-family:var(--font-sans);font-size:12px;background:transparent;border:1px solid var(--rule-soft);border-radius:2px;padding:5px 8px;color:var(--fg-1);outline:none;}
+.spend-add-input:focus{border-color:var(--ink);}
+.spend-add-btn{font-size:11px;font-weight:500;padding:5px 10px;background:var(--ink);color:var(--paper);border:none;border-radius:2px;cursor:pointer;white-space:nowrap;}
+.spend-budget-edit{font-family:var(--font-mono);font-size:11px;background:transparent;border:none;border-bottom:1px dashed var(--n-300);color:var(--fg-3);width:56px;text-align:right;outline:none;cursor:text;}
+.spend-budget-edit:focus{border-bottom-color:var(--ink);color:var(--fg-1);}
+.spend-summary-bar{display:flex;height:6px;border-radius:0;overflow:hidden;gap:1px;margin-bottom:4px;}
+.spend-summary-seg{height:6px;transition:width .6s var(--ease-out);}
+
+/* Goals */
+.goal-item{margin-bottom:18px;}
+.goal-title{font-family:var(--font-serif);font-size:15px;font-weight:500;color:var(--fg-1);margin-bottom:10px;}
+.kr-meta{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;}
+.kr-text{font-size:12px;color:var(--fg-2);max-width:80%;}
+.kr-pct{font-family:var(--font-mono);font-size:11px;color:var(--fg-3);}
+.kr-track{height:2px;background:var(--n-100);margin-bottom:8px;}
+.kr-fill{height:2px;background:var(--ink);transition:width .6s var(--ease-out);}
+
+/* Tasks */
+.task-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--rule-soft);cursor:pointer;}
+.task-item:last-child{border-bottom:none;}
+.task-check{width:16px;height:16px;border:1px solid var(--n-300);border-radius:2px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all .16s;}
+.task-check.done{background:var(--ink);border-color:var(--ink);}
+.task-text{font-size:13px;line-height:1.5;color:var(--fg-1);flex:1;}
+.task-text.done{color:var(--fg-3);text-decoration:line-through;}
+.task-project{font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--fg-3);}
+.task-due{font-size:11px;color:var(--fg-3);}
+.task-due.today{color:#8a5a3a;}
+.task-input{flex:1;font-family:var(--font-sans);font-size:13px;background:var(--paper);border:1px solid var(--rule-soft);border-radius:2px;padding:7px 10px;color:var(--fg-1);outline:none;transition:border-color .16s;}
+.task-input:focus{border-color:var(--ink);}
+
+/* Email */
+.email-item{padding:11px 0;border-bottom:1px solid var(--rule-soft);cursor:pointer;transition:background .16s;}
+.email-item:last-child{border-bottom:none;}
+.email-item:hover{background:var(--surface-alt);margin:0 -24px;padding-left:24px;padding-right:24px;}
+.email-row1{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px;}
+.email-from{font-size:13px;font-weight:600;color:var(--fg-1);}
+.email-from.read{font-weight:400;color:var(--fg-2);}
+.email-time{font-size:11px;color:var(--fg-3);}
+.email-subject{font-size:12px;font-weight:500;color:var(--fg-1);margin-bottom:2px;}
+.email-subject.read{font-weight:400;color:var(--fg-2);}
+.email-snippet{font-size:11px;color:var(--fg-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.unread-dot{width:6px;height:6px;border-radius:50%;background:var(--ink);flex-shrink:0;margin-top:4px;}
+
+/* Calendar */
+.cal-event{display:flex;gap:14px;padding:10px 0;border-bottom:1px solid var(--rule-soft);}
+.cal-event:last-child{border-bottom:none;}
+.cal-time{font-family:var(--font-mono);font-size:11px;color:var(--fg-3);min-width:52px;padding-top:2px;}
+.cal-accent{width:2px;background:var(--ink);border-radius:1px;flex-shrink:0;align-self:stretch;}
+.cal-event-title{font-size:13px;font-weight:500;color:var(--fg-1);margin-bottom:2px;}
+.cal-event-sub{font-size:11px;color:var(--fg-3);}
+
+/* Journal */
+.journal-textarea{width:100%;min-height:120px;font-family:var(--font-sans);font-size:14px;line-height:1.75;color:var(--fg-1);background:transparent;border:none;resize:vertical;outline:none;}
+.journal-textarea::placeholder{color:var(--fg-3);}
+
+/* Connect placeholder */
+.connect-state{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:14px;padding:24px 0;text-align:center;}
+.connect-title{font-family:var(--font-serif);font-size:17px;color:var(--fg-1);}
+.connect-sub{font-size:13px;color:var(--fg-3);max-width:28ch;line-height:1.6;}
+
+/* Buttons */
+.btn{font-family:var(--font-sans);font-size:13px;font-weight:500;padding:9px 20px;border-radius:2px;cursor:pointer;border:1px solid var(--ink);background:var(--ink);color:var(--paper);transition:all .16s;display:inline-flex;align-items:center;gap:8px;}
+.btn:hover{background:#000;}
+.btn:disabled{opacity:.5;cursor:not-allowed;}
+.btn.sec{background:transparent;color:var(--ink);}
+.btn.sec:hover{background:rgba(14,14,12,0.06);}
+.btn.sm{padding:5px 12px;font-size:12px;}
+
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(14,14,12,0.4);z-index:100;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(2px);}
+.modal-box{background:var(--paper);border:1px solid var(--rule-soft);border-radius:4px;width:460px;max-width:92vw;padding:32px;max-height:90vh;overflow-y:auto;}
+body.dark .modal-box{background:var(--paper);}
+.modal-title{font-family:var(--font-serif);font-size:22px;font-weight:500;letter-spacing:-0.01em;color:var(--fg-1);margin-bottom:4px;}
+.modal-sub{font-size:13px;color:var(--fg-3);line-height:1.6;margin-bottom:20px;}
+.modal-rule{height:1px;background:var(--rule-soft);margin:20px 0;}
+.modal-footer{display:flex;gap:10px;justify-content:flex-end;margin-top:24px;}
+.modal-note{font-size:11px;color:var(--fg-3);margin-top:12px;line-height:1.6;text-align:center;}
+
+/* Field */
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px;}
+.field label{font-size:10px;text-transform:uppercase;letter-spacing:0.14em;color:var(--fg-3);font-weight:500;}
+.field input{font-family:var(--font-sans);font-size:14px;color:var(--fg-1);background:var(--paper);border:1px solid var(--n-300);border-radius:2px;padding:10px 12px;outline:none;transition:border-color .16s;}
+.field input:focus{border-color:var(--ink);}
+.field-hint{font-size:11px;color:var(--fg-3);line-height:1.6;}
+
+/* Setup steps */
+.step-list{display:flex;flex-direction:column;gap:0;margin-bottom:20px;}
+.step-row{display:flex;gap:14px;padding:10px 0;border-bottom:1px solid var(--rule-soft);align-items:flex-start;}
+.step-row:last-child{border-bottom:none;}
+.step-num{font-family:var(--font-mono);font-size:11px;color:var(--fg-3);min-width:18px;margin-top:2px;}
+.step-text{font-size:13px;color:var(--fg-1);line-height:1.5;}
+.step-text a{color:var(--ink);}
+.origin-box{font-family:var(--font-mono);font-size:11px;background:var(--n-50);border:1px solid var(--rule-soft);border-radius:2px;padding:6px 10px;margin-top:6px;word-break:break-all;color:var(--fg-2);}
+
+/* Loading */
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{animation:spin .8s linear infinite;}
+.loading-row{display:flex;align-items:center;gap:12px;padding:20px 0;color:var(--fg-2);font-size:13px;}
+.icon-btn{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border:1px solid var(--n-200);background:transparent;color:var(--fg-3);border-radius:2px;cursor:pointer;padding:0;transition:color .15s ease, border-color .15s ease, background .15s ease;}
+.icon-btn:hover{color:var(--fg-1);border-color:var(--n-300);background:var(--n-50);}
+.icon-btn:disabled{opacity:.5;cursor:default;}
+.icon-btn.refreshing svg{animation:spin .8s linear infinite;}
+.meta-row{display:flex;align-items:center;gap:8px;}
+.meta-count{font-family:var(--font-mono);font-size:11px;color:var(--fg-3);}
+
+/* Error */
+.error-banner{font-size:12px;color:#8a5a3a;background:#f5ede5;border:1px solid #e8c9a8;border-radius:2px;padding:8px 12px;margin-top:8px;line-height:1.5;}
+body.dark .error-banner{background:#2a1f15;border-color:#3f2e1f;color:#c4906a;}
+
+/* Scope list */
+.scope-row{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--rule-soft);align-items:flex-start;}
+.scope-row:last-child{border-bottom:none;}
+.scope-icon{flex-shrink:0;margin-top:2px;}
+.scope-title{font-size:13px;font-weight:500;color:var(--fg-1);margin-bottom:2px;}
+.scope-desc{font-size:11px;color:var(--fg-3);line-height:1.5;}
+
+/* Responsive */
+@media(max-width:1100px){
+  .dash-card.span-8,.dash-card.span-4,.dash-card.span-7,.dash-card.span-5,.dash-card.span-6{grid-column:span 12;}
+  .dash-card.span-3{grid-column:span 6;}
+}
+@media(max-width:700px){
+  .dash-main{padding:16px 12px 48px;}
+  .dash-topbar{padding:0 16px;}
+  .dash-clock{font-size:18px;}
+  .finance-net-amount{font-size:26px;}
+  .dash-card.span-3{grid-column:span 12;}
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" data-inline="tweaks-panel.jsx">
+
+// tweaks-panel.jsx
+// Reusable Tweaks shell + form-control helpers.
+//
+// Owns the host protocol (listens for __activate_edit_mode / __deactivate_edit_mode,
+// posts __edit_mode_available / __edit_mode_set_keys / __edit_mode_dismissed) so
+// individual prototypes don't re-roll it. Ships a consistent set of controls so you
+// don't hand-draw <input type="range">, segmented radios, steppers, etc.
+//
+// Usage (in an HTML file that loads React + Babel):
+//
+//   const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+//     "primaryColor": "#D97757",
+//     "fontSize": 16,
+//     "density": "regular",
+//     "dark": false
+//   }/*EDITMODE-END*/;
+//
+//   function App() {
+//     const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+//     return (
+//       <div style={{ fontSize: t.fontSize, color: t.primaryColor }}>
+//         Hello
+//         <TweaksPanel>
+//           <TweakSection label="Typography" />
+//           <TweakSlider label="Font size" value={t.fontSize} min={10} max={32} unit="px"
+//                        onChange={(v) => setTweak('fontSize', v)} />
+//           <TweakRadio  label="Density" value={t.density}
+//                        options={['compact', 'regular', 'comfy']}
+//                        onChange={(v) => setTweak('density', v)} />
+//           <TweakSection label="Theme" />
+//           <TweakColor  label="Primary" value={t.primaryColor}
+//                        onChange={(v) => setTweak('primaryColor', v)} />
+//           <TweakToggle label="Dark mode" value={t.dark}
+//                        onChange={(v) => setTweak('dark', v)} />
+//         </TweaksPanel>
+//       </div>
+//     );
+//   }
+//
+// ─────────────────────────────────────────────────────────────────────────────
+
+const __TWEAKS_STYLE = `
+  .twk-panel{position:fixed;right:16px;bottom:16px;z-index:2147483646;width:280px;
+    max-height:calc(100vh - 32px);display:flex;flex-direction:column;
+    background:rgba(250,249,247,.78);color:#29261b;
+    -webkit-backdrop-filter:blur(24px) saturate(160%);backdrop-filter:blur(24px) saturate(160%);
+    border:.5px solid rgba(255,255,255,.6);border-radius:14px;
+    box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 12px 40px rgba(0,0,0,.18);
+    font:11.5px/1.4 ui-sans-serif,system-ui,-apple-system,sans-serif;overflow:hidden}
+  .twk-hd{display:flex;align-items:center;justify-content:space-between;
+    padding:10px 8px 10px 14px;cursor:move;user-select:none}
+  .twk-hd b{font-size:12px;font-weight:600;letter-spacing:.01em}
+  .twk-x{appearance:none;border:0;background:transparent;color:rgba(41,38,27,.55);
+    width:22px;height:22px;border-radius:6px;cursor:default;font-size:13px;line-height:1}
+  .twk-x:hover{background:rgba(0,0,0,.06);color:#29261b}
+  .twk-body{padding:2px 14px 14px;display:flex;flex-direction:column;gap:10px;
+    overflow-y:auto;overflow-x:hidden;min-height:0;
+    scrollbar-width:thin;scrollbar-color:rgba(0,0,0,.15) transparent}
+  .twk-body::-webkit-scrollbar{width:8px}
+  .twk-body::-webkit-scrollbar-track{background:transparent;margin:2px}
+  .twk-body::-webkit-scrollbar-thumb{background:rgba(0,0,0,.15);border-radius:4px;
+    border:2px solid transparent;background-clip:content-box}
+  .twk-body::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,.25);
+    border:2px solid transparent;background-clip:content-box}
+  .twk-row{display:flex;flex-direction:column;gap:5px}
+  .twk-row-h{flex-direction:row;align-items:center;justify-content:space-between;gap:10px}
+  .twk-lbl{display:flex;justify-content:space-between;align-items:baseline;
+    color:rgba(41,38,27,.72)}
+  .twk-lbl>span:first-child{font-weight:500}
+  .twk-val{color:rgba(41,38,27,.5);font-variant-numeric:tabular-nums}
+
+  .twk-sect{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    color:rgba(41,38,27,.45);padding:10px 0 0}
+  .twk-sect:first-child{padding-top:0}
+
+  .twk-field{appearance:none;width:100%;height:26px;padding:0 8px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:7px;
+    background:rgba(255,255,255,.6);color:inherit;font:inherit;outline:none}
+  .twk-field:focus{border-color:rgba(0,0,0,.25);background:rgba(255,255,255,.85)}
+  select.twk-field{padding-right:22px;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='rgba(0,0,0,.5)' d='M0 0h10L5 6z'/></svg>");
+    background-repeat:no-repeat;background-position:right 8px center}
+
+  .twk-slider{appearance:none;-webkit-appearance:none;width:100%;height:4px;margin:6px 0;
+    border-radius:999px;background:rgba(0,0,0,.12);outline:none}
+  .twk-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+    width:14px;height:14px;border-radius:50%;background:#fff;
+    border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
+  .twk-slider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;
+    background:#fff;border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
+
+  .twk-seg{position:relative;display:flex;padding:2px;border-radius:8px;
+    background:rgba(0,0,0,.06);user-select:none}
+  .twk-seg-thumb{position:absolute;top:2px;bottom:2px;border-radius:6px;
+    background:rgba(255,255,255,.9);box-shadow:0 1px 2px rgba(0,0,0,.12);
+    transition:left .15s cubic-bezier(.3,.7,.4,1),width .15s}
+  .twk-seg.dragging .twk-seg-thumb{transition:none}
+  .twk-seg button{appearance:none;position:relative;z-index:1;flex:1;border:0;
+    background:transparent;color:inherit;font:inherit;font-weight:500;min-height:22px;
+    border-radius:6px;cursor:default;padding:4px 6px;line-height:1.2;
+    overflow-wrap:anywhere}
+
+  .twk-toggle{position:relative;width:32px;height:18px;border:0;border-radius:999px;
+    background:rgba(0,0,0,.15);transition:background .15s;cursor:default;padding:0}
+  .twk-toggle[data-on="1"]{background:#34c759}
+  .twk-toggle i{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;
+    background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .15s}
+  .twk-toggle[data-on="1"] i{transform:translateX(14px)}
+
+  .twk-num{display:flex;align-items:center;height:26px;padding:0 0 0 8px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:7px;background:rgba(255,255,255,.6)}
+  .twk-num-lbl{font-weight:500;color:rgba(41,38,27,.6);cursor:ew-resize;
+    user-select:none;padding-right:8px}
+  .twk-num input{flex:1;min-width:0;height:100%;border:0;background:transparent;
+    font:inherit;font-variant-numeric:tabular-nums;text-align:right;padding:0 8px 0 0;
+    outline:none;color:inherit;-moz-appearance:textfield}
+  .twk-num input::-webkit-inner-spin-button,.twk-num input::-webkit-outer-spin-button{
+    -webkit-appearance:none;margin:0}
+  .twk-num-unit{padding-right:8px;color:rgba(41,38,27,.45)}
+
+  .twk-btn{appearance:none;height:26px;padding:0 12px;border:0;border-radius:7px;
+    background:rgba(0,0,0,.78);color:#fff;font:inherit;font-weight:500;cursor:default}
+  .twk-btn:hover{background:rgba(0,0,0,.88)}
+  .twk-btn.secondary{background:rgba(0,0,0,.06);color:inherit}
+  .twk-btn.secondary:hover{background:rgba(0,0,0,.1)}
+
+  .twk-swatch{appearance:none;-webkit-appearance:none;width:56px;height:22px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:6px;padding:0;cursor:default;
+    background:transparent;flex-shrink:0}
+  .twk-swatch::-webkit-color-swatch-wrapper{padding:0}
+  .twk-swatch::-webkit-color-swatch{border:0;border-radius:5.5px}
+  .twk-swatch::-moz-color-swatch{border:0;border-radius:5.5px}
+`;
+
+// ── useTweaks ───────────────────────────────────────────────────────────────
+// Single source of truth for tweak values. setTweak persists via the host
+// (__edit_mode_set_keys → host rewrites the EDITMODE block on disk).
+function useTweaks(defaults) {
+  const [values, setValues] = React.useState(defaults);
+  // Accepts either setTweak('key', value) or setTweak({ key: value, ... }) so a
+  // useState-style call doesn't write a "[object Object]" key into the persisted
+  // JSON block.
+  const setTweak = React.useCallback((keyOrEdits, val) => {
+    const edits = typeof keyOrEdits === 'object' && keyOrEdits !== null
+      ? keyOrEdits : { [keyOrEdits]: val };
+    setValues((prev) => ({ ...prev, ...edits }));
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits }, '*');
+  }, []);
+  return [values, setTweak];
+}
+
+// ── TweaksPanel ─────────────────────────────────────────────────────────────
+// Floating shell. Registers the protocol listener BEFORE announcing
+// availability — if the announce ran first, the host's activate could land
+// before our handler exists and the toolbar toggle would silently no-op.
+// The close button posts __edit_mode_dismissed so the host's toolbar toggle
+// flips off in lockstep; the host echoes __deactivate_edit_mode back which
+// is what actually hides the panel.
+function TweaksPanel({ title = 'Tweaks', children }) {
+  const [open, setOpen] = React.useState(false);
+  const dragRef = React.useRef(null);
+  const offsetRef = React.useRef({ x: 16, y: 16 });
+  const PAD = 16;
+
+  const clampToViewport = React.useCallback(() => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const w = panel.offsetWidth, h = panel.offsetHeight;
+    const maxRight = Math.max(PAD, window.innerWidth - w - PAD);
+    const maxBottom = Math.max(PAD, window.innerHeight - h - PAD);
+    offsetRef.current = {
+      x: Math.min(maxRight, Math.max(PAD, offsetRef.current.x)),
+      y: Math.min(maxBottom, Math.max(PAD, offsetRef.current.y)),
+    };
+    panel.style.right = offsetRef.current.x + 'px';
+    panel.style.bottom = offsetRef.current.y + 'px';
+  }, []);
+
+  React.useEffect(() => {
+    if (!open) return;
+    clampToViewport();
+    if (typeof ResizeObserver === 'undefined') {
+      window.addEventListener('resize', clampToViewport);
+      return () => window.removeEventListener('resize', clampToViewport);
+    }
+    const ro = new ResizeObserver(clampToViewport);
+    ro.observe(document.documentElement);
+    return () => ro.disconnect();
+  }, [open, clampToViewport]);
+
+  React.useEffect(() => {
+    const onMsg = (e) => {
+      const t = e?.data?.type;
+      if (t === '__activate_edit_mode') setOpen(true);
+      else if (t === '__deactivate_edit_mode') setOpen(false);
+    };
+    window.addEventListener('message', onMsg);
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+    return () => window.removeEventListener('message', onMsg);
+  }, []);
+
+  const dismiss = () => {
+    setOpen(false);
+    window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*');
+  };
+
+  const onDragStart = (e) => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const r = panel.getBoundingClientRect();
+    const sx = e.clientX, sy = e.clientY;
+    const startRight = window.innerWidth - r.right;
+    const startBottom = window.innerHeight - r.bottom;
+    const move = (ev) => {
+      offsetRef.current = {
+        x: startRight - (ev.clientX - sx),
+        y: startBottom - (ev.clientY - sy),
+      };
+      clampToViewport();
+    };
+    const up = () => {
+      window.removeEventListener('mousemove', move);
+      window.removeEventListener('mouseup', up);
+    };
+    window.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', up);
+  };
+
+  if (!open) return null;
+  return (
+    <>
+      <style>{__TWEAKS_STYLE}</style>
+      <div ref={dragRef} className="twk-panel"
+           style={{ right: offsetRef.current.x, bottom: offsetRef.current.y }}>
+        <div className="twk-hd" onMouseDown={onDragStart}>
+          <b>{title}</b>
+          <button className="twk-x" aria-label="Close tweaks"
+                  onMouseDown={(e) => e.stopPropagation()}
+                  onClick={dismiss}>✕</button>
+        </div>
+        <div className="twk-body">{children}</div>
+      </div>
+    </>
+  );
+}
+
+// ── Layout helpers ──────────────────────────────────────────────────────────
+
+function TweakSection({ label, children }) {
+  return (
+    <>
+      <div className="twk-sect">{label}</div>
+      {children}
+    </>
+  );
+}
+
+function TweakRow({ label, value, children, inline = false }) {
+  return (
+    <div className={inline ? 'twk-row twk-row-h' : 'twk-row'}>
+      <div className="twk-lbl">
+        <span>{label}</span>
+        {value != null && <span className="twk-val">{value}</span>}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+// ── Controls ────────────────────────────────────────────────────────────────
+
+function TweakSlider({ label, value, min = 0, max = 100, step = 1, unit = '', onChange }) {
+  return (
+    <TweakRow label={label} value={`${value}${unit}`}>
+      <input type="range" className="twk-slider" min={min} max={max} step={step}
+             value={value} onChange={(e) => onChange(Number(e.target.value))} />
+    </TweakRow>
+  );
+}
+
+function TweakToggle({ label, value, onChange }) {
+  return (
+    <div className="twk-row twk-row-h">
+      <div className="twk-lbl"><span>{label}</span></div>
+      <button type="button" className="twk-toggle" data-on={value ? '1' : '0'}
+              role="switch" aria-checked={!!value}
+              onClick={() => onChange(!value)}><i /></button>
+    </div>
+  );
+}
+
+function TweakRadio({ label, value, options, onChange }) {
+  const trackRef = React.useRef(null);
+  const [dragging, setDragging] = React.useState(false);
+  const opts = options.map((o) => (typeof o === 'object' ? o : { value: o, label: o }));
+  const idx = Math.max(0, opts.findIndex((o) => o.value === value));
+  const n = opts.length;
+
+  // The active value is read by pointer-move handlers attached for the lifetime
+  // of a drag — ref it so a stale closure doesn't fire onChange for every move.
+  const valueRef = React.useRef(value);
+  valueRef.current = value;
+
+  const segAt = (clientX) => {
+    const r = trackRef.current.getBoundingClientRect();
+    const inner = r.width - 4;
+    const i = Math.floor(((clientX - r.left - 2) / inner) * n);
+    return opts[Math.max(0, Math.min(n - 1, i))].value;
+  };
+
+  const onPointerDown = (e) => {
+    setDragging(true);
+    const v0 = segAt(e.clientX);
+    if (v0 !== valueRef.current) onChange(v0);
+    const move = (ev) => {
+      if (!trackRef.current) return;
+      const v = segAt(ev.clientX);
+      if (v !== valueRef.current) onChange(v);
+    };
+    const up = () => {
+      setDragging(false);
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+
+  return (
+    <TweakRow label={label}>
+      <div ref={trackRef} role="radiogroup" onPointerDown={onPointerDown}
+           className={dragging ? 'twk-seg dragging' : 'twk-seg'}>
+        <div className="twk-seg-thumb"
+             style={{ left: `calc(2px + ${idx} * (100% - 4px) / ${n})`,
+                      width: `calc((100% - 4px) / ${n})` }} />
+        {opts.map((o) => (
+          <button key={o.value} type="button" role="radio" aria-checked={o.value === value}>
+            {o.label}
+          </button>
+        ))}
+      </div>
+    </TweakRow>
+  );
+}
+
+function TweakSelect({ label, value, options, onChange }) {
+  return (
+    <TweakRow label={label}>
+      <select className="twk-field" value={value} onChange={(e) => onChange(e.target.value)}>
+        {options.map((o) => {
+          const v = typeof o === 'object' ? o.value : o;
+          const l = typeof o === 'object' ? o.label : o;
+          return <option key={v} value={v}>{l}</option>;
+        })}
+      </select>
+    </TweakRow>
+  );
+}
+
+function TweakText({ label, value, placeholder, onChange }) {
+  return (
+    <TweakRow label={label}>
+      <input className="twk-field" type="text" value={value} placeholder={placeholder}
+             onChange={(e) => onChange(e.target.value)} />
+    </TweakRow>
+  );
+}
+
+function TweakNumber({ label, value, min, max, step = 1, unit = '', onChange }) {
+  const clamp = (n) => {
+    if (min != null && n < min) return min;
+    if (max != null && n > max) return max;
+    return n;
+  };
+  const startRef = React.useRef({ x: 0, val: 0 });
+  const onScrubStart = (e) => {
+    e.preventDefault();
+    startRef.current = { x: e.clientX, val: value };
+    const decimals = (String(step).split('.')[1] || '').length;
+    const move = (ev) => {
+      const dx = ev.clientX - startRef.current.x;
+      const raw = startRef.current.val + dx * step;
+      const snapped = Math.round(raw / step) * step;
+      onChange(clamp(Number(snapped.toFixed(decimals))));
+    };
+    const up = () => {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+  return (
+    <div className="twk-num">
+      <span className="twk-num-lbl" onPointerDown={onScrubStart}>{label}</span>
+      <input type="number" value={value} min={min} max={max} step={step}
+             onChange={(e) => onChange(clamp(Number(e.target.value)))} />
+      {unit && <span className="twk-num-unit">{unit}</span>}
+    </div>
+  );
+}
+
+function TweakColor({ label, value, onChange }) {
+  return (
+    <div className="twk-row twk-row-h">
+      <div className="twk-lbl"><span>{label}</span></div>
+      <input type="color" className="twk-swatch" value={value}
+             onChange={(e) => onChange(e.target.value)} />
+    </div>
+  );
+}
+
+function TweakButton({ label, onClick, secondary = false }) {
+  return (
+    <button type="button" className={secondary ? 'twk-btn secondary' : 'twk-btn'}
+            onClick={onClick}>{label}</button>
+  );
+}
+
+Object.assign(window, {
+  useTweaks, TweaksPanel, TweakSection, TweakRow,
+  TweakSlider, TweakToggle, TweakRadio, TweakSelect,
+  TweakText, TweakNumber, TweakColor, TweakButton,
+});
+
+</script>
+<script type="text/babel" data-inline="zerodha.jsx">
+/* zerodha.jsx — Zerodha Kite integration component
+   Loaded via <script type="text/babel" src="zerodha.jsx"> after React.
+   Exports: ZerodhaCard, ZerodhaModal to window.
+*/
+
+/* global React */
+const { useState, useEffect, useRef } = React;
+
+// ── Kite API helpers ───────────────────────────────────────────────────────────
+const Z_LS = {
+  apiKey:      'z_api_key',
+  accessToken: 'z_access_token',
+  tokenExpiry: 'z_token_expiry',
+  workerUrl:   'z_worker_url',
+};
+
+function zGet(k){ return localStorage.getItem(k) || ''; }
+function zSet(k,v){ localStorage.setItem(k,v); }
+function zClear(){
+  [Z_LS.accessToken, Z_LS.tokenExpiry].forEach(k => localStorage.removeItem(k));
+}
+
+function isZTokenValid(){
+  const t = zGet(Z_LS.accessToken);
+  const exp = parseInt(zGet(Z_LS.tokenExpiry)||'0',10);
+  // Zerodha tokens expire at 6 AM IST next day — store expiry as epoch ms
+  return !!(t && Date.now() < exp);
+}
+
+function kite(endpoint, token, apiKey){
+  return fetch(`https://api.kite.trade${endpoint}`, {
+    headers: {
+      'X-Kite-Version': '3',
+      'Authorization': `token ${apiKey}:${token}`,
+    }
+  }).then(r => {
+    if(!r.ok) throw new Error(`Kite API ${r.status}`);
+    return r.json();
+  });
+}
+
+// ── INR formatter ──────────────────────────────────────────────────────────────
+const fmtINR = n => {
+  if(Math.abs(n) >= 1e7) return `₹${(n/1e7).toFixed(2)}Cr`;
+  if(Math.abs(n) >= 1e5) return `₹${(n/1e5).toFixed(2)}L`;
+  return `₹${n.toLocaleString('en-IN',{maximumFractionDigits:0})}`;
+};
+const fmtINRFull = n => `₹${n.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2})}`;
+const pct = (cur,avg,qty) => avg>0 ? (((cur-avg)/avg)*100).toFixed(2) : '0.00';
+
+function Spinner(){
+  return(
+    <svg style={{animation:'spin .8s linear infinite'}} width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
+      <circle cx="7" cy="7" r="5.5" stroke="currentColor" strokeWidth="1.5" strokeDasharray="20 14" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+// ── Zerodha Card ───────────────────────────────────────────────────────────────
+function ZerodhaCard({ onSetup }){
+  const [state, setState] = useState('idle'); // idle|loading|loaded|error
+  const [data, setData] = useState(null);
+  const [error, setError] = useState('');
+  const [tab, setTab] = useState('holdings'); // holdings|funds|mf|orders
+
+  const apiKey = zGet(Z_LS.apiKey);
+  const token  = zGet(Z_LS.accessToken);
+  const isLive = isZTokenValid();
+
+  const load = async () => {
+    if(!isLive){ setState('idle'); return; }
+    setState('loading'); setError('');
+    try {
+      const [holdings, funds, mf, orders, positions] = await Promise.allSettled([
+        kite('/portfolio/holdings', token, apiKey),
+        kite('/user/margins', token, apiKey),
+        kite('/portfolio/holdings', token, apiKey), // MF via separate endpoint later
+        kite('/orders', token, apiKey),
+        kite('/portfolio/positions', token, apiKey),
+      ]);
+      const h = holdings.status==='fulfilled' ? holdings.value?.data||[] : [];
+      const f = funds.status==='fulfilled' ? funds.value?.data : null;
+      const o = orders.status==='fulfilled' ? (orders.value?.data||[]).slice(0,10) : [];
+      const p = positions.status==='fulfilled' ? positions.value?.data : null;
+
+      // Portfolio value
+      const portfolioValue = h.reduce((s,x) => s + (x.last_price * x.quantity), 0);
+      const investedValue  = h.reduce((s,x) => s + (x.average_price * x.quantity), 0);
+      const totalPnL       = portfolioValue - investedValue;
+      const dayPnL         = p ? [...(p.net||[])].reduce((s,x) => s + (x.pnl||0),0) : null;
+
+      setData({ holdings:h, funds:f, orders:o, portfolioValue, investedValue, totalPnL, dayPnL });
+      setState('loaded');
+    } catch(e){
+      if(e.message.includes('Failed to fetch')||e.message.includes('NetworkError')||e.message.includes('CORS')) {
+        setError('SANDBOX_CORS');
+      } else {
+        setError(e.message);
+      }
+      setState('error');
+      if(e.message.includes('403')||e.message.includes('401')) zClear();
+    }
+  };
+
+  useEffect(()=>{ if(isLive) load(); },[isLive]);
+
+  // Not connected
+  if(!apiKey || !isLive){
+    return(
+      <div className="dash-card span-8" style={{alignItems:'center',justifyContent:'center',minHeight:200}}>
+        <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:14,textAlign:'center',padding:'16px 0'}}>
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+            <rect x="1" y="1" width="34" height="34" rx="3" stroke="var(--n-300)" strokeWidth="1.5"/>
+            <path d="M10 18h16M18 10v16" stroke="var(--n-300)" strokeWidth="1.5" strokeLinecap="round"/>
+          </svg>
+          <div style={{fontFamily:'var(--font-serif)',fontSize:18,color:'var(--fg-1)'}}>Connect Zerodha Kite</div>
+          <div style={{fontSize:13,color:'var(--fg-3)',maxWidth:'32ch',lineHeight:1.6}}>Live portfolio, P&amp;L, funds and order book from your Zerodha account.</div>
+          <button className="btn" onClick={onSetup} style={{marginTop:4}}>Set up Zerodha</button>
+        </div>
+      </div>
+    );
+  }
+
+  if(state==='loading') return(
+    <div className="dash-card span-8" style={{alignItems:'center',justifyContent:'center',minHeight:200}}>
+      <div style={{display:'flex',alignItems:'center',gap:10,color:'var(--fg-3)',fontSize:13}}><Spinner/>Fetching from Kite…</div>
+    </div>
+  );
+
+  if(state==='error') return(
+    <div className="dash-card span-8">
+      <div className="card-label"><span className="card-label-dot live"></span>Zerodha Kite · Connected</div>
+      {error==='SANDBOX_CORS' ? (
+        <div style={{display:'flex',flexDirection:'column',gap:12,padding:'8px 0'}}>
+          <div style={{fontFamily:'var(--font-serif)',fontSize:16,color:'var(--fg-1)'}}>Your token is saved. Live data needs local mode.</div>
+          <div style={{fontSize:13,color:'var(--fg-2)',lineHeight:1.7}}>
+            This dashboard runs in a sandboxed browser environment that blocks direct API calls to Zerodha. 
+            Download the dashboard and open <code style={{fontFamily:'var(--font-mono)',fontSize:12,background:'var(--n-50)',padding:'1px 6px',borderRadius:2}}>Dashboard.html</code> in Chrome — your access token is already saved and holdings will load instantly.
+          </div>
+          <div style={{display:'flex',gap:10,marginTop:4}}>
+            <button className="btn" onClick={()=>window.open('https://kite.trade/portfolio', '_blank')}>View on Kite.trade →</button>
+            <button className="btn sec" onClick={load}>Retry anyway</button>
+          </div>
+          <div style={{fontSize:11,color:'var(--fg-3)',marginTop:4}}>Token valid until 6 AM IST · <span style={{cursor:'pointer',textDecoration:'underline'}} onClick={()=>{zClear();setState('idle');}}>Disconnect</span></div>
+        </div>
+      ) : (
+        <>
+          <div className="error-banner">{error}</div>
+          <button className="btn sm sec" onClick={load}>Retry</button>
+        </>
+      )}
+    </div>
+  );
+
+  if(!data) return null;
+
+  const { holdings, funds, orders, portfolioValue, investedValue, totalPnL, dayPnL } = data;
+  const pnlPos = totalPnL >= 0;
+  const dayPos = dayPnL !== null ? dayPnL >= 0 : true;
+
+  const TABS = ['holdings','funds','orders'];
+
+  return(
+    <div className="dash-card span-8" style={{padding:0}}>
+      {/* Header strip */}
+      <div style={{padding:'20px 24px 0',display:'flex',alignItems:'flex-start',justifyContent:'space-between',gap:24,flexWrap:'wrap'}}>
+        <div>
+          <div className="card-label" style={{marginBottom:8}}>
+            <span className="card-label-dot live"></span>Zerodha Kite
+            <span style={{fontSize:9,background:'var(--n-100)',padding:'1px 6px',borderRadius:2,color:'var(--fg-3)'}}>LIVE</span>
+          </div>
+          <div style={{fontFamily:'var(--font-mono)',fontSize:32,letterSpacing:'-0.02em',color:'var(--fg-1)'}}>{fmtINR(portfolioValue)}</div>
+          <div style={{fontSize:10,textTransform:'uppercase',letterSpacing:'0.12em',color:'var(--fg-3)',marginTop:2}}>Portfolio value</div>
+        </div>
+        <div style={{display:'flex',gap:32,flexWrap:'wrap'}}>
+          <div>
+            <div style={{fontFamily:'var(--font-mono)',fontSize:18,color:pnlPos?'#4a7c59':'#8a5a3a'}}>{pnlPos?'+':''}{fmtINR(totalPnL)}</div>
+            <div style={{fontSize:10,textTransform:'uppercase',letterSpacing:'0.1em',color:'var(--fg-3)',marginTop:2}}>Total P&amp;L</div>
+          </div>
+          {dayPnL!==null&&(
+            <div>
+              <div style={{fontFamily:'var(--font-mono)',fontSize:18,color:dayPos?'#4a7c59':'#8a5a3a'}}>{dayPos?'+':''}{fmtINR(dayPnL)}</div>
+              <div style={{fontSize:10,textTransform:'uppercase',letterSpacing:'0.1em',color:'var(--fg-3)',marginTop:2}}>Today's P&amp;L</div>
+            </div>
+          )}
+          {funds?.equity&&(
+            <div>
+              <div style={{fontFamily:'var(--font-mono)',fontSize:18,color:'var(--fg-1)'}}>{fmtINR(funds.equity.available?.live_balance||0)}</div>
+              <div style={{fontSize:10,textTransform:'uppercase',letterSpacing:'0.1em',color:'var(--fg-3)',marginTop:2}}>Available funds</div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Tabs */}
+      <div style={{display:'flex',borderBottom:'1px solid var(--rule-soft)',margin:'16px 24px 0',gap:0}}>
+        {TABS.map(t=>(
+          <button key={t} onClick={()=>setTab(t)} style={{
+            fontFamily:'var(--font-sans)',fontSize:11,fontWeight:500,
+            textTransform:'uppercase',letterSpacing:'0.1em',
+            padding:'8px 16px',background:'none',border:'none',cursor:'pointer',
+            color: tab===t ? 'var(--fg-1)' : 'var(--fg-3)',
+            borderBottom: tab===t ? '2px solid var(--ink)' : '2px solid transparent',
+            transition:'all .16s',
+          }}>{t}</button>
+        ))}
+        <div style={{flex:1}}></div>
+        <button onClick={load} style={{background:'none',border:'none',cursor:'pointer',color:'var(--fg-3)',fontSize:11,padding:'8px 12px',display:'flex',alignItems:'center',gap:6}} title="Refresh">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M10.5 6A4.5 4.5 0 1 1 6 1.5c1.4 0 2.65.64 3.5 1.64M10.5 1.5v3h-3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          Refresh
+        </button>
+      </div>
+
+      {/* Tab content */}
+      <div style={{padding:'0 24px 20px',marginTop:16}}>
+        {tab==='holdings'&&(
+          <div>
+            {holdings.length===0&&<div style={{padding:'20px 0',textAlign:'center',color:'var(--fg-3)',fontSize:13}}>No holdings found.</div>}
+            {holdings.length>0&&(
+              <div>
+                <div style={{display:'grid',gridTemplateColumns:'1fr 80px 90px 90px 80px',gap:'0 12px',padding:'0 0 8px',borderBottom:'1px solid var(--rule-soft)',marginBottom:4}}>
+                  {['Stock','Qty','Avg','LTP','P&L'].map(h=>(
+                    <div key={h} style={{fontSize:10,textTransform:'uppercase',letterSpacing:'0.1em',color:'var(--fg-3)',fontWeight:500,textAlign:h==='Stock'?'left':'right'}}>{h}</div>
+                  ))}
+                </div>
+                {holdings.map(h=>{
+                  const pl = (h.last_price - h.average_price)*h.quantity;
+                  const plPos = pl>=0;
+                  return(
+                    <div key={h.tradingsymbol} style={{display:'grid',gridTemplateColumns:'1fr 80px 90px 90px 80px',gap:'0 12px',padding:'9px 0',borderBottom:'1px solid var(--rule-soft)',alignItems:'center'}}>
+                      <div>
+                        <div style={{fontSize:13,fontWeight:500,color:'var(--fg-1)'}}>{h.tradingsymbol}</div>
+                        <div style={{fontSize:10,textTransform:'uppercase',letterSpacing:'0.08em',color:'var(--fg-3)'}}>{h.exchange}</div>
+                      </div>
+                      <div style={{fontFamily:'var(--font-mono)',fontSize:13,color:'var(--fg-2)',textAlign:'right'}}>{h.quantity}</div>
+                      <div style={{fontFamily:'var(--font-mono)',fontSize:12,color:'var(--fg-2)',textAlign:'right'}}>{fmtINRFull(h.average_price)}</div>
+                      <div style={{fontFamily:'var(--font-mono)',fontSize:12,color:'var(--fg-1)',textAlign:'right'}}>{fmtINRFull(h.last_price)}</div>
+                      <div style={{fontFamily:'var(--font-mono)',fontSize:12,color:plPos?'#4a7c59':'#8a5a3a',textAlign:'right'}}>{plPos?'+':''}{fmtINR(pl)}</div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
+
+        {tab==='funds'&&(
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16}}>
+            {funds ? [
+              { label:'Available for trading', val: funds.equity?.available?.live_balance },
+              { label:'Opening balance', val: funds.equity?.available?.opening_balance },
+              { label:'Used margin', val: funds.equity?.utilised?.debits },
+              { label:'SPAN margin', val: funds.equity?.utilised?.span },
+              { label:'Exposure margin', val: funds.equity?.utilised?.exposure },
+              { label:'Option premium', val: funds.equity?.utilised?.option_premium },
+            ].map(({label,val})=>(
+              <div key={label} style={{padding:'12px 0',borderBottom:'1px solid var(--rule-soft)'}}>
+                <div style={{fontSize:10,textTransform:'uppercase',letterSpacing:'0.1em',color:'var(--fg-3)',marginBottom:4}}>{label}</div>
+                <div style={{fontFamily:'var(--font-mono)',fontSize:16,color:'var(--fg-1)'}}>{val!=null?fmtINRFull(val):'—'}</div>
+              </div>
+            )) : <div style={{color:'var(--fg-3)',fontSize:13}}>Funds data unavailable.</div>}
+          </div>
+        )}
+
+        {tab==='orders'&&(
+          <div>
+            {orders.length===0&&<div style={{padding:'20px 0',textAlign:'center',color:'var(--fg-3)',fontSize:13}}>No recent orders.</div>}
+            {orders.map(o=>{
+              const isBuy = o.transaction_type==='BUY';
+              const statusColor = o.status==='COMPLETE'?'#4a7c59':o.status==='REJECTED'?'#8a5a3a':'var(--fg-3)';
+              return(
+                <div key={o.order_id} style={{display:'grid',gridTemplateColumns:'1fr 60px 60px 90px 80px',gap:'0 12px',padding:'9px 0',borderBottom:'1px solid var(--rule-soft)',alignItems:'center'}}>
+                  <div>
+                    <div style={{fontSize:13,fontWeight:500,color:'var(--fg-1)'}}>{o.tradingsymbol}</div>
+                    <div style={{fontSize:10,color:'var(--fg-3)',textTransform:'uppercase',letterSpacing:'0.08em'}}>{o.order_type} · {o.exchange}</div>
+                  </div>
+                  <div style={{fontSize:12,fontWeight:600,color:isBuy?'#4a7c59':'#8a5a3a',textAlign:'right'}}>{o.transaction_type}</div>
+                  <div style={{fontFamily:'var(--font-mono)',fontSize:12,color:'var(--fg-2)',textAlign:'right'}}>{o.quantity}</div>
+                  <div style={{fontFamily:'var(--font-mono)',fontSize:12,color:'var(--fg-1)',textAlign:'right'}}>{fmtINRFull(o.average_price||o.price||0)}</div>
+                  <div style={{fontSize:10,fontWeight:500,textTransform:'uppercase',letterSpacing:'0.08em',color:statusColor,textAlign:'right'}}>{o.status}</div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ── Zerodha Setup Modal ────────────────────────────────────────────────────────
+function ZerodhaModal({ onClose, onConnected }){
+  const [step, setStep] = useState('guide'); // guide|credentials|login|token|done
+  const [apiKey, setApiKey] = useState(()=>zGet(Z_LS.apiKey));
+  const [workerUrl, setWorkerUrl] = useState(()=>zGet(Z_LS.workerUrl));
+  const [requestToken, setRequestToken] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [err, setErr] = useState('');
+
+  const origin = window.location.origin;
+
+  const openKiteLogin = () => {
+    const redirectUrl = 'https://kite.trade/connect/login';
+    const url = `https://kite.trade/connect/login?api_key=${encodeURIComponent(apiKey)}&v=3&redirect_params=${encodeURIComponent('redirect_url='+redirectUrl)}`;
+    const popup = window.open(url, 'KiteLogin', 'width=520,height=720,left=200,top=100');
+    setStep('token');
+    // Poll for token in popup URL
+    const poll = setInterval(() => {
+      try {
+        const popUrl = popup?.location?.href || '';
+        if (popUrl.includes('request_token=')) {
+          const match = popUrl.match(/request_token=([^&]+)/);
+          if (match) {
+            setRequestToken(decodeURIComponent(match[1]));
+            popup.close();
+            clearInterval(poll);
+          }
+        }
+      } catch(e) { /* cross-origin — ignore until redirected back */ }
+      if (popup?.closed) clearInterval(poll);
+    }, 500);
+  };
+
+  const exchangeToken = async () => {
+    if(!requestToken.trim()){ setErr('Paste the request_token from the redirect URL.'); return; }
+    if(!workerUrl.trim()){ setErr('Enter your Cloudflare Worker URL.'); return; }
+    setLoading(true); setErr('');
+
+    const cleanWorker = workerUrl.trim().replace(/\/$/,'');
+    const fetchUrl = `${cleanWorker}?api_key=${encodeURIComponent(apiKey)}&request_token=${encodeURIComponent(requestToken.trim())}`;
+
+    // Try fetch directly first, then via no-cors image trick to diagnose
+    try {
+      const res = await fetch(fetchUrl, { mode: 'cors' });
+      const text = await res.text();
+      let json;
+      try { json = JSON.parse(text); } catch(e) { throw new Error(`Worker returned: ${text.slice(0,300)}`); }
+      const accessToken = json.access_token || json.data?.access_token;
+      if(!accessToken) throw new Error(json.message || json.error || `Kite said: ${JSON.stringify(json).slice(0,300)}`);
+      const expIST = new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Kolkata'}));
+      expIST.setDate(expIST.getDate()+1); expIST.setHours(6,0,0,0);
+      zSet(Z_LS.apiKey, apiKey);
+      zSet(Z_LS.workerUrl, workerUrl.trim());
+      zSet(Z_LS.accessToken, accessToken);
+      zSet(Z_LS.tokenExpiry, String(expIST.getTime()));
+      setStep('done');
+      onConnected();
+    } catch(e) {
+      if(e.message.includes('Failed to fetch') || e.message.includes('NetworkError') || e.message.includes('CORS')) {
+        // Open exchange in a new tab as fallback
+        setErr('');
+        const popup = window.open(fetchUrl, 'KiteExchange', 'width=600,height=400');
+        // Poll for result via localStorage
+        zSet('z_pending_url', fetchUrl);
+        setErr('A new tab opened with the token exchange. Copy the access_token from that page\'s JSON response, then paste it below.');
+        setStep('manual_token');
+      } else {
+        setErr(e.message);
+      }
+      setLoading(false);
+    }
+  };
+
+  const WORKER_CODE = `// Cloudflare Worker — Zerodha Kite token exchange
+// 1. workers.cloudflare.com → Create Worker → paste this → Deploy
+// 2. Settings → Variables → Add: KITE_SECRET = your API secret
+
+export default {
+  async fetch(request, env) {
+    if (request.method === 'OPTIONS') {
+      return new Response(null, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+          'Access-Control-Allow-Headers': '*',
+        },
+      });
+    }
+    const url = new URL(request.url);
+    let apiKey = url.searchParams.get('api_key');
+    let requestToken = url.searchParams.get('request_token');
+    if (request.method === 'POST') {
+      const body = await request.formData().catch(() => null);
+      if (body) { apiKey = apiKey || body.get('api_key'); requestToken = requestToken || body.get('request_token'); }
+    }
+    if (!apiKey || !requestToken) return new Response(JSON.stringify({ error: 'Missing api_key or request_token' }), { status: 400, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } });
+    if (!env.KITE_SECRET) return new Response(JSON.stringify({ error: 'KITE_SECRET not set on Worker' }), { status: 500, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } });
+    const checksum = await sha256(apiKey + requestToken + env.KITE_SECRET);
+    const res = await fetch('https://api.kite.trade/session/token', {
+      method: 'POST',
+      headers: { 'X-Kite-Version': '3', 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: \`api_key=\${encodeURIComponent(apiKey)}&request_token=\${encodeURIComponent(requestToken)}&checksum=\${checksum}\`,
+    });
+    const data = await res.json();
+    return new Response(JSON.stringify(data), { status: res.status, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } });
+  }
+};
+async function sha256(msg) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}`;
+
+  return(
+    <div className="modal-overlay" onClick={e=>e.target===e.currentTarget&&onClose()}>
+      <div className="modal-box" style={{width:520,maxWidth:'94vw'}}>
+
+        {step==='done'&&(
+          <>
+            <div style={{textAlign:'center',padding:'12px 0 24px'}}>
+              <svg width="44" height="44" viewBox="0 0 44 44" fill="none" style={{margin:'0 auto 16px',display:'block'}}>
+                <circle cx="22" cy="22" r="22" fill="var(--ink)"/>
+                <polyline points="11,22 18,30 33,14" stroke="var(--paper)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <div className="modal-title" style={{marginBottom:6}}>Zerodha connected.</div>
+              <div style={{fontSize:13,color:'var(--fg-3)'}}>Your portfolio will load now. Token expires at 6 AM IST.</div>
+            </div>
+            <div className="modal-footer"><button className="btn" onClick={onClose}>Open dashboard</button></div>
+          </>
+        )}
+
+        {step==='guide'&&(
+          <>
+            <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:6}}>
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="1" y="1" width="20" height="20" rx="2" fill="#387ED1"/><path d="M6 11h10M11 6v10" stroke="white" strokeWidth="1.8" strokeLinecap="round"/></svg>
+              <div className="modal-title">Set up Zerodha Kite</div>
+            </div>
+            <div className="modal-sub">One-time setup to get your API key and a tiny token exchange proxy.</div>
+            <div className="modal-rule"></div>
+
+            <div style={{fontSize:11,fontWeight:600,textTransform:'uppercase',letterSpacing:'0.12em',color:'var(--fg-3)',marginBottom:10}}>Step 1 — Get Kite API access</div>
+            <div className="step-list">
+              <div className="step-row"><div className="step-num">1.</div><div className="step-text">Go to <a href="https://developers.kite.trade/" target="_blank">developers.kite.trade</a> and sign in with your Zerodha account.</div></div>
+              <div className="step-row"><div className="step-num">2.</div><div className="step-text">Create a new app. Set the <strong>Redirect URL</strong> to:<div className="origin-box">https://kite.trade/connect/login</div></div></div>
+              <div className="step-row"><div className="step-num">3.</div><div className="step-text">Note your <strong>API Key</strong> and <strong>API Secret</strong>. Kite API costs ~₹2000/yr.</div></div>
+            </div>
+
+            <div className="modal-rule"></div>
+            <div style={{fontSize:11,fontWeight:600,textTransform:'uppercase',letterSpacing:'0.12em',color:'var(--fg-3)',marginBottom:10}}>Step 2 — Deploy a 2-min Cloudflare Worker (free)</div>
+            <div className="step-list">
+              <div className="step-row"><div className="step-num">1.</div><div className="step-text">Sign up free at <a href="https://workers.cloudflare.com" target="_blank">workers.cloudflare.com</a></div></div>
+              <div className="step-row"><div className="step-num">2.</div><div className="step-text">Create a new Worker and paste the code below.</div></div>
+              <div className="step-row"><div className="step-num">3.</div><div className="step-text">Add an environment variable <code style={{fontFamily:'var(--font-mono)',fontSize:12,background:'var(--n-50)',padding:'1px 5px',borderRadius:2}}>KITE_SECRET</code> = your API Secret.</div></div>
+              <div className="step-row"><div className="step-num">4.</div><div className="step-text">Deploy. Copy the Worker URL (e.g. <em>https://kite-auth.yourname.workers.dev</em>)</div></div>
+            </div>
+            <div style={{position:'relative',marginBottom:16}}>
+              <pre style={{fontFamily:'var(--font-mono)',fontSize:10,lineHeight:1.6,background:'var(--n-50)',border:'1px solid var(--rule-soft)',borderRadius:2,padding:'10px 12px',overflowX:'auto',maxHeight:160,color:'var(--fg-2)'}}>{WORKER_CODE}</pre>
+              <button className="btn sm sec" style={{position:'absolute',top:8,right:8}} onClick={()=>navigator.clipboard?.writeText(WORKER_CODE)}>Copy</button>
+            </div>
+
+            <div className="modal-footer">
+              <button className="btn sec" onClick={onClose}>Cancel</button>
+              <button className="btn" onClick={()=>setStep('credentials')}>I have my API key →</button>
+            </div>
+          </>
+        )}
+
+        {step==='credentials'&&(
+          <>
+            <div className="modal-title" style={{marginBottom:4}}>Your credentials</div>
+            <div className="modal-sub">Stored only in this browser's localStorage.</div>
+            <div className="modal-rule"></div>
+            <div className="field">
+              <label>Kite API Key</label>
+              <input value={apiKey} onChange={e=>setApiKey(e.target.value)} placeholder="xxxxxxxxxxxxxxxx"/>
+            </div>
+            <div className="field">
+              <label>Cloudflare Worker URL</label>
+              <input value={workerUrl} onChange={e=>setWorkerUrl(e.target.value)} placeholder="https://kite-auth.yourname.workers.dev"/>
+              <div className="field-hint">This is used to exchange your request_token for an access_token.</div>
+            </div>
+            {err&&<div className="error-banner">{err}</div>}
+            <div className="modal-footer">
+              <button className="btn sec" onClick={()=>setStep('guide')}>← Back</button>
+              <button className="btn" onClick={()=>{ if(!apiKey.trim()||!workerUrl.trim()){setErr('Both fields required.');return;} setErr(''); openKiteLogin(); }}>
+                Log in to Zerodha →
+              </button>
+            </div>
+          </>
+        )}
+
+        {step==='token'&&(
+          <>
+            <div className="modal-title" style={{marginBottom:4}}>Paste your request_token</div>
+            <div className="modal-sub">After logging in to Zerodha, you'll be redirected back here. Copy the <code style={{fontFamily:'var(--font-mono)',fontSize:12,background:'var(--n-50)',padding:'1px 5px',borderRadius:2}}>request_token</code> from the URL and paste it below.</div>
+            <div className="modal-rule"></div>
+            <div style={{fontSize:12,color:'var(--fg-3)',background:'var(--n-50)',border:'1px solid var(--rule-soft)',borderRadius:2,padding:'8px 12px',marginBottom:16,lineHeight:1.7}}>
+              After logging in, you'll land on a Zerodha page. The URL will contain your token:<br/>
+              <span style={{fontFamily:'var(--font-mono)',fontSize:11,color:'var(--fg-2)'}}>https://kite.trade/connect/login?request_token=<strong>XXXXXXXX</strong>&action=login&status=success</span><br/><br/>
+              <strong>If the token was auto-filled below, just click Connect.</strong> Otherwise copy the token from the URL and paste it.
+            </div>
+            <div className="field">
+              <label>request_token</label>
+              <input value={requestToken} onChange={e=>setRequestToken(e.target.value)} placeholder="Paste token here…" autoFocus/>
+            </div>
+            {err&&<div className="error-banner">{err}</div>}
+            <div className="modal-footer">
+              <button className="btn sec" onClick={()=>{setStep('credentials');setErr('');}}>← Back</button>
+              <button className="btn" onClick={exchangeToken} disabled={loading}>
+                {loading?<><Spinner/>Connecting…</>:'Connect →'}
+              </button>
+            </div>
+            <div className="modal-note">Didn't get redirected? <span style={{cursor:'pointer',textDecoration:'underline'}} onClick={openKiteLogin}>Re-open Zerodha login</span></div>
+          </>
+        )}
+        {step==='manual_token'&&(
+          <>
+            <div className="modal-title" style={{marginBottom:4}}>Paste your access_token</div>
+            <div className="modal-sub">The token exchange opened in a new tab. From that tab's JSON response, copy the value of <code style={{fontFamily:'var(--font-mono)',fontSize:12,background:'var(--n-50)',padding:'1px 5px',borderRadius:2}}>access_token</code> and paste it below.</div>
+            <div className="modal-rule"></div>
+            <div style={{fontSize:12,color:'var(--fg-3)',background:'var(--n-50)',border:'1px solid var(--rule-soft)',borderRadius:2,padding:'8px 12px',marginBottom:16,lineHeight:1.7}}>
+              The JSON in the new tab will look like:<br/>
+              <span style={{fontFamily:'var(--font-mono)',fontSize:11,color:'var(--fg-2)'}}>{'{"status":"success","data":{"access_token":"XXXXXXXX",...}}'}</span>
+            </div>
+            <div className="field">
+              <label>access_token</label>
+              <input value={requestToken} onChange={e=>setRequestToken(e.target.value)} placeholder="Paste access_token here…" autoFocus/>
+            </div>
+            {err&&<div className="error-banner">{err}</div>}
+            <div className="modal-footer">
+              <button className="btn sec" onClick={()=>{setStep('token');setErr('');}}>← Back</button>
+              <button className="btn" onClick={()=>{
+                const accessToken = requestToken.trim();
+                if(!accessToken){setErr('Paste the access_token.');return;}
+                const expIST = new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Kolkata'}));
+                expIST.setDate(expIST.getDate()+1); expIST.setHours(6,0,0,0);
+                zSet(Z_LS.apiKey, apiKey);
+                zSet(Z_LS.workerUrl, workerUrl.trim());
+                zSet(Z_LS.accessToken, accessToken);
+                zSet(Z_LS.tokenExpiry, String(expIST.getTime()));
+                setStep('done');
+                onConnected();
+              }}>Save &amp; connect</button>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+Object.assign(window, { ZerodhaCard, ZerodhaModal, isZTokenValid, zClear });
+
+</script>
+<script type="text/babel">
+const { useState, useEffect, useRef, useCallback } = React;
+
+// ── Constants ──────────────────────────────────────────────────────────────────
+const GOOGLE_SCOPES = 'https://www.googleapis.com/auth/gmail.readonly https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/userinfo.profile';
+const LS = {
+  googleClientId: 'dash_gclientid',
+  googleToken: 'dash_gtoken',
+  googleExpiry: 'dash_gexpiry',
+  todoistToken: 'dash_tdtoken',
+  connections: 'dash_connections',
+  tasks: 'dash_tasks',
+  journal: k => `dash_journal_${k}`,
+};
+
+// ── API helpers ────────────────────────────────────────────────────────────────
+function storedToken() {
+  const t = localStorage.getItem(LS.googleToken);
+  const exp = parseInt(localStorage.getItem(LS.googleExpiry) || '0', 10);
+  if (t && Date.now() < exp - 60000) return t;
+  return null;
+}
+
+function saveToken(token) {
+  localStorage.setItem(LS.googleToken, token);
+  localStorage.setItem(LS.googleExpiry, String(Date.now() + 3600 * 1000));
+}
+
+function clearGoogleToken() {
+  localStorage.removeItem(LS.googleToken);
+  localStorage.removeItem(LS.googleExpiry);
+}
+
+async function gFetch(url, token) {
+  const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err?.error?.message || `HTTP ${res.status}`);
+  }
+  return res.json();
+}
+
+async function fetchGmail(token) {
+  const list = await gFetch(
+    'https://gmail.googleapis.com/gmail/v1/users/me/messages?maxResults=8&labelIds=INBOX',
+    token
+  );
+  if (!list.messages?.length) return [];
+  const details = await Promise.all(
+    list.messages.map(m =>
+      gFetch(
+        `https://gmail.googleapis.com/gmail/v1/users/me/messages/${m.id}?format=metadata&metadataHeaders=From,Subject,Date`,
+        token
+      )
+    )
+  );
+  return details.map(msg => {
+    const h = msg.payload?.headers || [];
+    const get = n => h.find(x => x.name === n)?.value || '';
+    const rawFrom = get('From');
+    const from = rawFrom.includes('<') ? rawFrom.split('<')[0].replace(/"/g,'').trim() : rawFrom;
+    const dateStr = get('Date');
+    const d = dateStr ? new Date(dateStr) : null;
+    const now = new Date();
+    let time = '';
+    if (d) {
+      const diff = Math.floor((now - d) / 86400000);
+      if (diff === 0) time = d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+      else if (diff === 1) time = 'Yesterday';
+      else if (diff < 7) time = d.toLocaleDateString('en-US',{weekday:'short'});
+      else time = d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+    }
+    return {
+      id: msg.id,
+      from: from || 'Unknown',
+      subject: get('Subject') || '(no subject)',
+      time,
+      read: !msg.labelIds?.includes('UNREAD'),
+      snippet: msg.snippet || '',
+    };
+  });
+}
+
+async function fetchCalendar(token) {
+  const now = new Date();
+  const start = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString();
+  const end = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1).toISOString();
+  const data = await gFetch(
+    `https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${encodeURIComponent(start)}&timeMax=${encodeURIComponent(end)}&singleEvents=true&orderBy=startTime&maxResults=10`,
+    token
+  );
+  return (data.items || []).map(ev => {
+    const st = ev.start?.dateTime;
+    const en = ev.end?.dateTime;
+    const time = st
+      ? new Date(st).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:false})
+      : 'All day';
+    const ms = st && en ? new Date(en) - new Date(st) : 0;
+    const mins = Math.round(ms / 60000);
+    const dur = mins < 60 ? `${mins} min` : (mins % 60 ? `${Math.floor(mins/60)} hr ${mins%60} min` : `${Math.floor(mins/60)} hr`);
+    const loc = ev.location || (ev.hangoutLink ? 'Google Meet' : ev.conferenceData ? 'Video call' : '');
+    return { id: ev.id, title: ev.summary || 'Untitled', time, duration: dur, location: loc };
+  });
+}
+
+async function fetchTodoist(token) {
+  const res = await fetch('https://api.todoist.com/rest/v2/tasks', {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  if (!res.ok) throw new Error(`Todoist error: HTTP ${res.status}`);
+  const tasks = await res.json();
+  return tasks.slice(0, 15).map(t => ({
+    id: t.id,
+    text: t.content,
+    project: 'Todoist',
+    due: t.due?.string || t.due?.date || '',
+    done: false,
+  }));
+}
+
+async function closeTodoistTask(apiToken, taskId) {
+  await fetch(`https://api.todoist.com/rest/v2/tasks/${taskId}/close`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${apiToken}` },
+  });
+}
+
+function requestGoogleToken(clientId, callback) {
+  if (!window.google?.accounts?.oauth2) {
+    callback(null, 'Google Sign-In library not loaded yet. Please wait a moment and retry.');
+    return;
+  }
+  const client = window.google.accounts.oauth2.initTokenClient({
+    client_id: clientId,
+    scope: GOOGLE_SCOPES,
+    callback: resp => {
+      if (resp.error) callback(null, `OAuth error: ${resp.error_description || resp.error}`);
+      else callback(resp.access_token, null);
+    },
+    error_callback: err => {
+      callback(null, err.type === 'popup_closed' ? 'Window closed — please try again.' : (err.message || 'Auth cancelled.'));
+    },
+  });
+  client.requestAccessToken({ prompt: '' });
+}
+
+// ── Static mock data (shown when not connected) ──────────────────────────────
+const MOCK_TASKS = [
+  { id:'m1', text:'Review Q1 engagement deliverables', project:'Work', due:'Today', done:false },
+  { id:'m2', text:'Draft proposal for new client', project:'Work', due:'Tomorrow', done:false },
+  { id:'m3', text:'Send invoice — March retainer', project:'Finance', due:'Today', done:false },
+  { id:'m4', text:'Book dentist appointment', project:'Personal', due:'This week', done:true },
+  { id:'m5', text:'Write April essay draft', project:'Writing', due:'Apr 30', done:false },
+];
+// Real inbox — synced via Gmail MCP on May 2 2026
+const MOCK_EMAILS = [
+  { id:'19de36f38c8713ac', from:'Naukri / Infoedge', subject:'Walk-in Drive — Inside Sales, Jeevansathi.com, 4 May', time:'May 1', read:false, snippet:'Mega walk-in drive | Inside Sales | 4th May 2026 | Noida Sec-2. Graduate/PG, 6mo–5yr exp.' },
+  { id:'19de2489267148c8', from:'IIMJobs', subject:'Re: Product Manager – Growth – FinTech', time:'May 1', read:false, snippet:'Akash Poddar — the status of your application has been updated by the recruiter.' },
+  { id:'19de05f71ec23e69', from:'Google', subject:'Akash, review your Google Account settings', time:'Apr 30', read:true, snippet:'Hi Akash, welcome to Google on your new PC. A few tips to get you started.' },
+  { id:'19de05e7c141e09d', from:'Google Security', subject:'Security alert — new sign-in on Mac', time:'Apr 30', read:true, snippet:'We noticed a new sign-in to your Google Account on a Mac device. If this was you, no action needed.' },
+  { id:'19ddeb08371b41b7', from:'Reshma / TechSlash', subject:'Activate your pre-qualified card', time:'Apr 30', read:true, snippet:'Hi — congratulations — activate the card suited for your registered profile.' },
+  { id:'19ddc89f2c69582c', from:'Naukri', subject:'New jobs in Bangalore matching your search — up to ₹30 LPA', time:'Apr 30', read:true, snippet:'Nvidia Omniverse, Aspire Systems, full-stack roles — few positions left, apply fast.' },
+];
+// Real calendar — synced via Calendar MCP May 2 2026 · Asia/Kolkata · no events today
+const MOCK_EVENTS = [];
+const GOALS_DATA = [
+  { id:1, title:'Financial independence', krs:[
+    { text:'Reach $100k net worth', progress:74 },
+    { text:'Max 401k contributions', progress:58 },
+    { text:'Build 6-month emergency fund', progress:90 },
+  ]},
+  { id:2, title:'Professional growth', krs:[
+    { text:'Complete 2 consulting engagements', progress:50 },
+    { text:'Publish 4 essays this year', progress:25 },
+  ]},
+  { id:3, title:'Health & wellbeing', krs:[
+    { text:'Run 3× per week consistently', progress:67 },
+    { text:'Sleep 7+ hours nightly', progress:82 },
+  ]},
+];
+const ACCOUNTS = [
+  { name:'Savings', bank:'HDFC Bank', balance:142500.00 },
+  { name:'Current', bank:'ICICI Bank', balance:38750.50 },
+  { name:'Investments', bank:'Zerodha', balance:524800.75 },
+];
+const CAT_COLORS = ['#3a5a8a','#4a7c59','#8a5a3a','#6a4a7c','#7c6a3a'];
+const INIT_SPENDING = [
+  { id:'housing', category:'Housing', budget:25000, txns:[
+    { id:'h1', name:'Rent — May', date:'May 1', amount:20000 },
+    { id:'h2', name:'Electricity', date:'Apr 28', amount:3200 },
+    { id:'h3', name:'Water & maintenance', date:'Apr 25', amount:1800 },
+  ]},
+  { id:'food', category:'Food & dining', budget:10000, txns:[
+    { id:'f1', name:'Swiggy', date:'May 1', amount:680 },
+    { id:'f2', name:'DMart groceries', date:'Apr 30', amount:2400 },
+    { id:'f3', name:'Barbeque Nation', date:'Apr 27', amount:1850 },
+    { id:'f4', name:'Zomato', date:'Apr 25', amount:520 },
+    { id:'f5', name:'Chai Point', date:'Apr 23', amount:180 },
+    { id:'f6', name:'Big Basket', date:'Apr 20', amount:2770 },
+  ]},
+  { id:'transport', category:'Transport', budget:4000, txns:[
+    { id:'t1', name:'Ola / Uber', date:'Apr 30', amount:1200 },
+    { id:'t2', name:'Metro recharge', date:'Apr 22', amount:500 },
+    { id:'t3', name:'Petrol', date:'Apr 18', amount:1500 },
+  ]},
+  { id:'subs', category:'Subscriptions', budget:2500, txns:[
+    { id:'s1', name:'Netflix', date:'Apr 15', amount:649 },
+    { id:'s2', name:'Spotify', date:'Apr 15', amount:119 },
+    { id:'s3', name:'Claude Pro', date:'Apr 15', amount:1699 },
+  ]},
+  { id:'misc', category:'Misc', budget:6000, txns:[
+    { id:'m1', name:'Amazon — books', date:'Apr 29', amount:1200 },
+    { id:'m2', name:'Pharmacy', date:'Apr 26', amount:650 },
+    { id:'m3', name:'Barber', date:'Apr 20', amount:300 },
+  ]},
+];
+
+const fmt = n => n.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+const CURRENCY = '₹';
+
+// ── Icons ─────────────────────────────────────────────────────────────────────
+function CheckIcon(){return(<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="#FAFAF7" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>);}
+function GoogleIcon({size=18}){return(<svg width={size} height={size} viewBox="0 0 18 18" fill="none"><path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.566 2.684-3.874 2.684-6.615z" fill="#4285F4"/><path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z" fill="#34A853"/><path d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/><path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z" fill="#EA4335"/></svg>);}
+function TodoistIcon({size=18}){return(<svg width={size} height={size} viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#DB4035"/><path d="M5 9l2.5 2.5L13 6.5" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>);}
+function Spinner(){return(<svg className="spin" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.5" strokeDasharray="22 18" strokeLinecap="round"/></svg>);}
+function RefreshIcon({size=12}){return(<svg width={size} height={size} viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M10.5 2.5v3h-3"/><path d="M1.5 9.5v-3h3"/><path d="M2.5 5a4 4 0 0 1 7.1-1.2L10.5 5.5"/><path d="M9.5 7a4 4 0 0 1-7.1 1.2L1.5 6.5"/></svg>);}
+
+// ── Clock ─────────────────────────────────────────────────────────────────────
+function Clock(){
+  const [t,setT]=useState(new Date());
+  useEffect(()=>{const i=setInterval(()=>setT(new Date()),1000);return()=>clearInterval(i);},[]);
+  const h=String(t.getHours()).padStart(2,'0'),m=String(t.getMinutes()).padStart(2,'0'),s=String(t.getSeconds()).padStart(2,'0');
+  return <span className="dash-clock">{h}:{m}<span style={{opacity:.35,fontSize:'15px'}}>:{s}</span></span>;
+}
+
+// ── Finance card (static) ─────────────────────────────────────────────────────
+function SpendingPanel(){
+  const [cats, setCats] = useState(() => {
+    try { const s = localStorage.getItem('dash_spending'); return s ? JSON.parse(s) : INIT_SPENDING; } catch(e){ return INIT_SPENDING; }
+  });
+  const [open, setOpen] = useState(null);
+  const [newName, setNewName] = useState('');
+  const [newAmt, setNewAmt] = useState('');
+
+  useEffect(()=>{ localStorage.setItem('dash_spending', JSON.stringify(cats)); }, [cats]);
+
+  const totalSpend = cats.reduce((s,c) => s + c.txns.reduce((a,t)=>a+t.amount,0), 0);
+  const totalBudget = cats.reduce((s,c) => s + c.budget, 0);
+
+  const updateBudget = (id, val) => {
+    const n = parseInt(val.replace(/[^0-9]/g,''),10);
+    if (!isNaN(n) && n > 0) setCats(cs => cs.map(c => c.id===id ? {...c, budget:n} : c));
+  };
+
+  const addTxn = (catId) => {
+    if (!newName.trim() || !newAmt) return;
+    const amt = parseInt(newAmt.replace(/[^0-9]/g,''),10);
+    if (isNaN(amt) || amt <= 0) return;
+    const today = new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short'});
+    setCats(cs => cs.map(c => c.id===catId ? {...c, txns:[{id:String(Date.now()),name:newName.trim(),date:today,amount:amt},...c.txns]} : c));
+    setNewName(''); setNewAmt('');
+  };
+
+  const deleteTxn = (catId, txnId) => {
+    setCats(cs => cs.map(c => c.id===catId ? {...c, txns:c.txns.filter(t=>t.id!==txnId)} : c));
+  };
+
+  return (
+    <div style={{display:'flex',flexDirection:'column',gap:0}}>
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline',marginBottom:6}}>
+        <div>
+          <span style={{fontFamily:'var(--font-mono)',fontSize:26,letterSpacing:'-0.02em',color:'var(--fg-1)'}}>{CURRENCY}{fmt(totalSpend)}</span>
+        </div>
+        <span style={{fontSize:10,textTransform:'uppercase',letterSpacing:'0.12em',color:'var(--fg-3)'}}>of {CURRENCY}{totalBudget.toLocaleString('en-IN')} budget</span>
+      </div>
+      {/* stacked colour bar */}
+      <div className="spend-summary-bar" style={{marginBottom:12}}>
+        {cats.map((c,i)=>{
+          const spent = c.txns.reduce((a,t)=>a+t.amount,0);
+          const pct = (spent/totalBudget)*100;
+          return <div key={c.id} className="spend-summary-seg" style={{width:`${pct}%`,background:CAT_COLORS[i],minWidth:spent?2:0}}></div>;
+        })}
+        {/* remaining */}
+        <div style={{flex:1,background:'var(--n-100)'}}></div>
+      </div>
+      <div className="card-rule" style={{marginBottom:4}}></div>
+      {cats.map((cat,i)=>{
+        const spent = cat.txns.reduce((a,t)=>a+t.amount,0);
+        const pct = Math.min(Math.round(spent/cat.budget*100),100);
+        const over = spent > cat.budget;
+        const isOpen = open === cat.id;
+        return (
+          <div key={cat.id} className="spend-cat-row">
+            <div className="spend-cat-header" onClick={()=>setOpen(isOpen?null:cat.id)}>
+              <div style={{display:'flex',alignItems:'center',gap:8}}>
+                <div style={{width:8,height:8,borderRadius:'50%',background:CAT_COLORS[i],flexShrink:0}}></div>
+                <span className="spend-cat-name">{cat.category}</span>
+              </div>
+              <span className="spend-cat-amt" style={{color:over?'#8a5a3a':'var(--fg-1)'}}>
+                {CURRENCY}{spent.toLocaleString('en-IN')}
+                <span style={{color:'var(--fg-3)',fontWeight:400}}> / </span>
+                <input
+                  className="spend-budget-edit"
+                  defaultValue={cat.budget.toLocaleString('en-IN')}
+                  onClick={e=>e.stopPropagation()}
+                  onBlur={e=>updateBudget(cat.id, e.target.value)}
+                  onKeyDown={e=>{ if(e.key==='Enter'){updateBudget(cat.id,e.target.value);e.target.blur();} e.stopPropagation(); }}
+                />
+              </span>
+              <span className={`spend-cat-chevron${isOpen?' open':''}`}>▾</span>
+            </div>
+            <div className="spend-cat-bar"><div className="spend-cat-fill" style={{width:`${pct}%`,background:over?'#8a5a3a':CAT_COLORS[i]}}></div></div>
+            {isOpen && (
+              <div className="spend-detail">
+                {cat.txns.map(txn=>(
+                  <div key={txn.id} className="spend-txn">
+                    <div>
+                      <div className="spend-txn-name">{txn.name}</div>
+                      <div className="spend-txn-date">{txn.date}</div>
+                    </div>
+                    <div style={{display:'flex',alignItems:'center',gap:10}}>
+                      <span className="spend-txn-amount">{CURRENCY}{txn.amount.toLocaleString('en-IN')}</span>
+                      <span style={{cursor:'pointer',color:'var(--fg-3)',fontSize:11}} onClick={()=>deleteTxn(cat.id,txn.id)}>✕</span>
+                    </div>
+                  </div>
+                ))}
+                <div className="spend-add-row">
+                  <input className="spend-add-input" placeholder="Description" value={newName} onChange={e=>setNewName(e.target.value)}
+                    onKeyDown={e=>e.key==='Enter'&&addTxn(cat.id)}/>
+                  <input className="spend-add-input" placeholder="₹ Amount" value={newAmt} onChange={e=>setNewAmt(e.target.value)}
+                    style={{width:80,flexShrink:0}} onKeyDown={e=>e.key==='Enter'&&addTxn(cat.id)}/>
+                  <button className="spend-add-btn" onClick={()=>addTxn(cat.id)}>Add</button>
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function FinanceCard(){
+  const nw=ACCOUNTS.reduce((s,a)=>s+a.balance,0);
+  return(
+    <div className="dash-card span-8" style={{padding:0,display:'grid',gridTemplateColumns:'1fr 1fr',gap:0}}>
+      <div style={{padding:24,borderRight:'1px solid var(--rule-soft)'}}>
+        <div className="card-label" style={{marginBottom:10}}><span className="card-label-dot"></span>Finances</div>
+        <div className="finance-net-amount">{CURRENCY}{fmt(nw)}</div>
+        <div style={{fontSize:10,textTransform:'uppercase',letterSpacing:'0.12em',color:'var(--fg-3)',marginTop:2}}>Net worth</div>
+        <div className="finance-delta">↑ {CURRENCY}18,200 this month</div>
+        <div className="card-rule"></div>
+        <div style={{marginTop:14}}>
+          <div className="card-label" style={{marginBottom:10}}>Accounts</div>
+          <div className="accounts-list">
+            {ACCOUNTS.map(a=>(
+              <div key={a.name} className="account-row">
+                <div><div className="account-name">{a.name}</div><div className="account-bank">{a.bank}</div></div>
+                <div className="account-amount">{CURRENCY}{fmt(a.balance)}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div style={{padding:24}}>
+        <div className="card-label" style={{marginBottom:12}}><span className="card-label-dot"></span>May spending · click to expand</div>
+        <SpendingPanel/>
+      </div>
+    </div>
+  );
+}
+
+// ── Goals card ────────────────────────────────────────────────────────────────
+function GoalsCard(){
+  return(
+    <div className="dash-card span-4">
+      <div className="card-label"><span className="card-label-dot"></span>Goals · Q2 2026</div>
+      {GOALS_DATA.map(g=>(
+        <div key={g.id} className="goal-item">
+          <div className="goal-title">{g.title}</div>
+          {g.krs.map((kr,i)=>(
+            <div key={i}>
+              <div className="kr-meta"><span className="kr-text">{kr.text}</span><span className="kr-pct">{kr.progress}%</span></div>
+              <div className="kr-track"><div className="kr-fill" style={{width:`${kr.progress}%`,opacity:kr.progress>70?1:kr.progress>40?.7:.45}}></div></div>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ── Todoist card ──────────────────────────────────────────────────────────────
+function TodoistCard({ todoistToken, onConnect }){
+  const isLive = !!todoistToken;
+  const [tasks,setTasks]=useState(()=>{
+    try{const s=localStorage.getItem(LS.tasks);return s?JSON.parse(s):MOCK_TASKS;}catch(e){return MOCK_TASKS;}
+  });
+  const [newTask,setNewTask]=useState('');
+  const [loading,setLoading]=useState(false);
+  const [error,setError]=useState('');
+
+  useEffect(()=>{
+    if(!isLive)return;
+    setLoading(true);setError('');
+    fetchTodoist(todoistToken)
+      .then(t=>{setTasks(t);localStorage.setItem(LS.tasks,JSON.stringify(t));})
+      .catch(e=>{
+        if(e.message.includes('Failed to fetch')||e.message.includes('NetworkError')) {
+          setError('Live sync unavailable in this environment — tasks shown from local cache. Your token is saved.');
+        } else {
+          setError(e.message);
+        }
+      })
+      .finally(()=>setLoading(false));
+  },[todoistToken]);
+
+  useEffect(()=>{if(!isLive)localStorage.setItem(LS.tasks,JSON.stringify(tasks));},[tasks,isLive]);
+
+  const toggle=id=>{
+    if(isLive){
+      closeTodoistTask(todoistToken,id).catch(()=>{});
+    }
+    setTasks(t=>t.map(x=>x.id===id?{...x,done:!x.done}:x));
+  };
+  const add=()=>{
+    if(!newTask.trim())return;
+    setTasks(t=>[...t,{id:String(Date.now()),text:newTask.trim(),project:'Inbox',due:'',done:false}]);
+    setNewTask('');
+  };
+  const remaining=tasks.filter(t=>!t.done).length;
+
+  return(
+    <div className="dash-card span-4">
+      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+        <div className="card-label">
+          <span className="card-label-dot" style={{background:isLive?'#DB4035':'var(--fg-3)'}}></span>
+          Todoist {loading&&<Spinner/>}
+          {!isLive&&<span style={{fontSize:9,background:'var(--n-100)',padding:'1px 6px',borderRadius:2,color:'var(--fg-3)'}}>DEMO</span>}
+        </div>
+        {isLive
+          ? <span style={{fontFamily:'var(--font-mono)',fontSize:11,color:'var(--fg-3)'}}>{remaining} open</span>
+          : <button className="btn sm sec" onClick={onConnect}>Connect</button>
+        }
+      </div>
+      {error&&<div className="error-banner">{error}</div>}
+      <div>{tasks.map(task=>(
+        <div key={task.id} className="task-item" onClick={()=>toggle(task.id)}>
+          <div className={`task-check${task.done?' done':''}`}>{task.done&&<CheckIcon/>}</div>
+          <span className={`task-text${task.done?' done':''}`}>{task.text}</span>
+          <div style={{display:'flex',flexDirection:'column',alignItems:'flex-end',gap:2,flexShrink:0}}>
+            <span className="task-project">{task.project}</span>
+            {task.due&&<span className={`task-due${task.due==='Today'?' today':''}`}>{task.due}</span>}
+          </div>
+        </div>
+      ))}</div>
+      <div style={{display:'flex',gap:8}}>
+        <input className="task-input" placeholder="Add a task…" value={newTask}
+          onChange={e=>setNewTask(e.target.value)} onKeyDown={e=>e.key==='Enter'&&add()}/>
+        <button className="btn" style={{padding:'7px 14px',fontSize:13}} onClick={add}>+</button>
+      </div>
+    </div>
+  );
+}
+
+// ── Gmail card — live via Gmail MCP ──────────────────────────────────────────
+function GmailCard({googleToken, onConnect}){
+  const isLive = !!googleToken;
+  const [emails,setEmails]=useState(MOCK_EMAILS);
+  const [refreshing,setRefreshing]=useState(false);
+  const [lastSync,setLastSync]=useState(new Date());
+  const [error,setError]=useState('');
+  const markRead=id=>setEmails(e=>e.map(x=>x.id===id?{...x,read:true}:x));
+  const unread=emails.filter(e=>!e.read).length;
+  const refresh=()=>{
+    if(refreshing)return;
+    setRefreshing(true);setError('');
+    if(isLive){
+      fetchGmail(googleToken)
+        .then(rows=>{
+          if(rows&&rows.length)setEmails(rows.map(r=>({...r,read:r.read??false})));
+          setLastSync(new Date());
+        })
+        .catch(e=>{
+          const msg=String(e&&e.message||e);
+          if(msg.includes('Failed to fetch')||msg.includes('NetworkError')){
+            setError('sandbox');
+          } else {
+            setError(msg);
+          }
+        })
+        .finally(()=>setRefreshing(false));
+    } else {
+      // No token connected — simulate a refresh on the local mock data.
+      setTimeout(()=>{setLastSync(new Date());setRefreshing(false);},600);
+    }
+  };
+  useEffect(()=>{ if(isLive) refresh(); /* eslint-disable-next-line */ },[googleToken]);
+  const syncLabel=(()=>{
+    const s=Math.floor((Date.now()-lastSync.getTime())/1000);
+    if(s<10)return 'just now';
+    if(s<60)return `${s}s ago`;
+    const m=Math.floor(s/60);return `${m}m ago`;
+  })();
+  return(
+    <div className="dash-card span-4">
+      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+        <div className="card-label">
+          <span className="card-label-dot" style={{background:isLive?'#34A853':'var(--fg-3)'}}></span>
+          Gmail
+          <span style={{fontSize:9,background:'var(--n-100)',padding:'1px 6px',borderRadius:2,color:'var(--fg-3)',letterSpacing:'0.1em'}}>{isLive?'LIVE':'DEMO'}</span>
+        </div>
+        <div className="meta-row">
+          {!isLive&&<button className="btn sm sec" onClick={onConnect}>Connect</button>}
+          {unread>0&&<span className="meta-count">{unread} unread</span>}
+          <button
+            className={`icon-btn${refreshing?' refreshing':''}`}
+            onClick={refresh}
+            disabled={refreshing}
+            title={refreshing?'Refreshing…':`Last synced ${syncLabel}`}
+            aria-label="Refresh Gmail">
+            <RefreshIcon/>
+          </button>
+        </div>
+      </div>
+      {error==='sandbox'&&<div style={{fontSize:11,color:'var(--fg-3)',marginTop:6,lineHeight:1.5}}>Live fetch is blocked inside this preview. Open the file in a regular browser tab to sync.</div>}
+      {error&&error!=='sandbox'&&<div className="error-banner">{error}</div>}
+      <div>{emails.map(em=>(
+        <div key={em.id} className="email-item" onClick={()=>markRead(em.id)}>
+          <div className="email-row1">
+            <div style={{display:'flex',alignItems:'center',gap:7}}>
+              {!em.read&&<div className="unread-dot"></div>}
+              <span className={`email-from${em.read?' read':''}`}>{em.from}</span>
+            </div>
+            <span className="email-time">{em.time}</span>
+          </div>
+          <div className={`email-subject${em.read?' read':''}`}>{em.subject}</div>
+          <div className="email-snippet">{em.snippet}</div>
+        </div>
+      ))}</div>
+    </div>
+  );
+}
+
+// Real calendar — synced via Google Calendar MCP (May 2 2026)
+// Calendar is connected; no events this week.
+const LIVE_EVENTS = [];
+
+// ── Calendar card ─────────────────────────────────────────────────────────────
+function CalendarCard(){
+  const today = new Date();
+  const dateLabel = today.toLocaleDateString('en-IN',{weekday:'long',month:'long',day:'numeric'});
+  return(
+    <div className="dash-card span-4">
+      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+        <div className="card-label">
+          <span className="card-label-dot live"></span>Calendar
+          <span style={{fontSize:9,background:'var(--n-100)',padding:'1px 6px',borderRadius:2,color:'var(--fg-3)',letterSpacing:'0.1em'}}>MCP</span>
+        </div>
+        <span style={{fontFamily:'var(--font-mono)',fontSize:11,color:'var(--fg-3)'}}>{LIVE_EVENTS.length} events today</span>
+      </div>
+      <div style={{fontSize:12,color:'var(--fg-3)',fontStyle:'italic',marginTop:-8}}>{dateLabel}</div>
+      <div className="card-rule"></div>
+      {LIVE_EVENTS.length === 0 ? (
+        <div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',flex:1,padding:'24px 0',gap:10,textAlign:'center'}}>
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <rect x="2" y="5" width="28" height="25" rx="2" stroke="var(--n-300)" strokeWidth="1.5"/>
+            <path d="M2 11h28" stroke="var(--n-300)" strokeWidth="1.5"/>
+            <path d="M10 2v6M22 2v6" stroke="var(--n-300)" strokeWidth="1.5" strokeLinecap="round"/>
+            <circle cx="16" cy="21" r="3" stroke="var(--n-300)" strokeWidth="1.5"/>
+          </svg>
+          <div style={{fontSize:13,color:'var(--fg-2)',fontFamily:'var(--font-serif)',fontStyle:'italic'}}>Clear day ahead.</div>
+          <div style={{fontSize:11,color:'var(--fg-3)',lineHeight:1.6,maxWidth:'22ch'}}>No events scheduled today. Enjoy the space.</div>
+        </div>
+      ) : (
+        <div>{LIVE_EVENTS.map(ev=>{
+          const nowH=new Date().getHours();
+          const [eh]=ev.time.split(':').map(Number);
+          const past=eh<nowH;
+          return(
+            <div key={ev.id} className="cal-event" style={{opacity:past?.45:1}}>
+              <div className="cal-time">{ev.time}</div>
+              <div className="cal-accent"></div>
+              <div>
+                <div className="cal-event-title">{ev.title}</div>
+                <div className="cal-event-sub">{ev.duration}{ev.location?` · ${ev.location}`:''}</div>
+              </div>
+            </div>
+          );
+        })}</div>
+      )}
+    </div>
+  );
+}
+
+// ── Journal card ──────────────────────────────────────────────────────────────
+function JournalCard(){
+  const today=new Date().toISOString().split('T')[0];
+  const key=LS.journal(today);
+  const [text,setText]=useState(()=>localStorage.getItem(key)||'');
+  const [saved,setSaved]=useState(true);
+  const timer=useRef(null);
+
+  const handleChange=e=>{
+    setText(e.target.value);setSaved(false);
+    clearTimeout(timer.current);
+    timer.current=setTimeout(()=>{
+      localStorage.setItem(key,e.target.value);
+      setSaved(true);
+    },800);
+  };
+  const words=text.trim().split(/\s+/).filter(Boolean).length;
+  const dateLabel=new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+  return(
+    <div className="dash-card span-12">
+      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+        <div className="card-label"><span className="card-label-dot"></span>Journal</div>
+        <span style={{fontFamily:'var(--font-serif)',fontStyle:'italic',fontSize:14,color:'var(--fg-2)'}}>{dateLabel}</span>
+      </div>
+      <div className="card-rule"></div>
+      <textarea className="journal-textarea"
+        placeholder="What's on your mind today? Write freely — this is for you alone."
+        value={text} onChange={handleChange}/>
+      <div style={{display:'flex',justifyContent:'space-between',paddingTop:8,borderTop:'1px solid var(--rule-soft)'}}>
+        <span style={{fontSize:11,color:'var(--fg-3)',fontStyle:'italic'}}>{saved?(text?'Saved.':''):'Saving…'}</span>
+        <span style={{fontSize:11,textTransform:'uppercase',letterSpacing:'0.1em',color:'var(--fg-3)'}}>{words} words</span>
+      </div>
+    </div>
+  );
+}
+
+// ── Connect Modal (Google + Todoist) ──────────────────────────────────────────
+function ConnectModal({ service, onClose, onConnected }){
+  const isGoogle = service === 'google';
+  const [step, setStep] = useState('intro'); // intro | setup | authorizing | verifying | done | error
+  const [clientId, setClientId] = useState(()=>localStorage.getItem(LS.googleClientId)||'');
+  const [tdToken, setTdToken] = useState(()=>localStorage.getItem(LS.todoistToken)||'');
+  const [err, setErr] = useState('');
+  const origin = window.location.origin;
+
+  const handleGoogle = () => {
+    if (!clientId.trim()) { setErr('Please enter your Google Client ID.'); return; }
+    localStorage.setItem(LS.googleClientId, clientId.trim());
+    setStep('authorizing'); setErr('');
+    requestGoogleToken(clientId.trim(), (token, error) => {
+      if (error) { setStep('setup'); setErr(error); return; }
+      saveToken(token);
+      setStep('done');
+      onConnected('google', token);
+    });
+  };
+
+  const handleTodoist = async () => {
+    if (!tdToken.trim()) { setErr('Please enter your API token.'); return; }
+    setStep('verifying'); setErr('');
+    // Save directly — API calls in the card will surface errors if token is wrong
+    localStorage.setItem(LS.todoistToken, tdToken.trim());
+    setStep('done');
+    onConnected('todoist', tdToken.trim());
+  };
+
+  return(
+    <div className="modal-overlay" onClick={e=>e.target===e.currentTarget&&onClose()}>
+      <div className="modal-box">
+        {step==='done'?(
+          <>
+            <div style={{textAlign:'center',padding:'8px 0 24px'}}>
+              <svg width="44" height="44" viewBox="0 0 44 44" fill="none" style={{margin:'0 auto 16px',display:'block'}}>
+                <circle cx="22" cy="22" r="22" fill="var(--ink)"/>
+                <polyline points="11,22 18,30 33,14" stroke="var(--paper)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <div className="modal-title" style={{marginBottom:6}}>Connected.</div>
+              <div style={{fontSize:13,color:'var(--fg-3)'}}>{isGoogle?'Google is now linked to your dashboard.':'Todoist is now linked to your dashboard.'}</div>
+            </div>
+            <div className="modal-footer"><button className="btn" onClick={onClose}>Close</button></div>
+          </>
+        ) : step==='authorizing'?(
+          <div className="loading-row" style={{justifyContent:'center',padding:'40px 0'}}>
+            <Spinner/><span>Waiting for Google authorization…</span>
+          </div>
+        ) : step==='verifying'?(
+          <div className="loading-row" style={{justifyContent:'center',padding:'40px 0'}}>
+            <Spinner/><span>Verifying token…</span>
+          </div>
+        ) : isGoogle?(
+          <>
+            <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:6}}>
+              <GoogleIcon size={22}/><div className="modal-title">Connect Google</div>
+            </div>
+            <div className="modal-sub">Authorize read-only access to Gmail and Google Calendar.<br/>Your data never leaves your browser.</div>
+
+            {clientId ? (
+              <>
+                <div className="modal-rule"></div>
+                <div style={{marginBottom:16}}>
+                  <div style={{fontSize:10,textTransform:'uppercase',letterSpacing:'0.12em',color:'var(--fg-3)',marginBottom:10}}>Permissions requested</div>
+                  <div className="scope-row"><span className="scope-icon">✉</span><div><div className="scope-title">Gmail — read only</div><div className="scope-desc">View message senders, subjects, and snippets.</div></div></div>
+                  <div className="scope-row"><span className="scope-icon">📅</span><div><div className="scope-title">Google Calendar — read only</div><div className="scope-desc">View today's events and schedule.</div></div></div>
+                </div>
+                <div className="field" style={{marginBottom:0}}>
+                  <label>Client ID</label>
+                  <input value={clientId} onChange={e=>setClientId(e.target.value)} placeholder="xxxx.apps.googleusercontent.com"/>
+                  <div className="field-hint">Using saved Client ID. <span style={{cursor:'pointer',textDecoration:'underline'}} onClick={()=>{setClientId('');localStorage.removeItem(LS.googleClientId);}}>Change</span></div>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="modal-rule"></div>
+                <div style={{fontSize:12,fontWeight:500,color:'var(--fg-2)',marginBottom:10}}>One-time setup</div>
+                <div className="step-list">
+                  <div className="step-row"><div className="step-num">1.</div><div className="step-text">Go to <a href="https://console.cloud.google.com/" target="_blank">console.cloud.google.com</a>, create a project, and enable the <strong>Gmail API</strong> and <strong>Google Calendar API</strong>.</div></div>
+                  <div className="step-row"><div className="step-num">2.</div><div className="step-text">Under <em>APIs & Services → Credentials</em>, create an <strong>OAuth 2.0 Client ID</strong> (Web application type).</div></div>
+                  <div className="step-row"><div className="step-num">3.</div><div className="step-text">
+                    Add this URL as an <strong>Authorized JavaScript origin</strong>:
+                    <div className="origin-box">{origin}</div>
+                  </div></div>
+                  <div className="step-row"><div className="step-num">4.</div><div className="step-text">Copy your Client ID and paste it below.</div></div>
+                </div>
+                <div className="field">
+                  <label>Google OAuth Client ID</label>
+                  <input value={clientId} onChange={e=>setClientId(e.target.value)} placeholder="xxxxxxxxx.apps.googleusercontent.com"/>
+                </div>
+              </>
+            )}
+
+            {err&&<div className="error-banner">{err}</div>}
+            <div className="modal-footer">
+              <button className="btn sec" onClick={onClose}>Cancel</button>
+              <button className="btn" onClick={handleGoogle} disabled={!clientId.trim()}>
+                <GoogleIcon size={15}/>Authorize with Google
+              </button>
+            </div>
+            <div className="modal-note">A Google sign-in popup will open. Pop-up blockers may interfere.</div>
+          </>
+        ) : (
+          /* Todoist */
+          <>
+            <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:6}}>
+              <TodoistIcon size={22}/><div className="modal-title">Connect Todoist</div>
+            </div>
+            <div className="modal-sub">Use your personal API token to sync tasks with Todoist.</div>
+            <div className="modal-rule"></div>
+            <div className="step-list">
+              <div className="step-row"><div className="step-num">1.</div><div className="step-text">Open <a href="https://app.todoist.com/app/settings/integrations/developer" target="_blank">Todoist → Settings → Integrations → Developer</a>.</div></div>
+              <div className="step-row"><div className="step-num">2.</div><div className="step-text">Copy your <strong>API token</strong> and paste it below.</div></div>
+            </div>
+            <div className="field">
+              <label>Todoist API Token</label>
+              <input value={tdToken} onChange={e=>setTdToken(e.target.value)} placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" type="password"/>
+            </div>
+            {err&&<div className="error-banner">{err}</div>}
+            <div className="modal-footer">
+              <button className="btn sec" onClick={onClose}>Cancel</button>
+              <button className="btn" onClick={handleTodoist} disabled={!tdToken.trim()}>
+                <TodoistIcon size={15}/>Connect Todoist
+              </button>
+            </div>
+            <div className="modal-note">Token is stored only in this browser's localStorage.</div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ── Root ──────────────────────────────────────────────────────────────────────
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "darkMode": false,
+  "name": "Akash",
+  "showCalendar": true
+}/*EDITMODE-END*/;
+
+function Root(){
+  const [showTweaks, setShowTweaks] = useState(false);
+  const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  const [modal, setModal] = useState(null); // 'google' | 'todoist' | 'zerodha' | null
+
+  // Token state
+  const [googleToken, setGoogleToken] = useState(()=>storedToken());
+  const [todoistToken, setTodoistTokenState] = useState(()=>localStorage.getItem(LS.todoistToken)||'');
+
+  useEffect(()=>{
+    window.addEventListener('message', e=>{
+      if(e.data?.type==='__activate_edit_mode') setShowTweaks(true);
+      if(e.data?.type==='__deactivate_edit_mode') setShowTweaks(false);
+    });
+    window.parent.postMessage({type:'__edit_mode_available'},'*');
+  },[]);
+
+  useEffect(()=>{ document.body.classList.toggle('dark', tweaks.darkMode); },[tweaks.darkMode]);
+
+  const handleConnected = (service, token) => {
+    if (service === 'google') setGoogleToken(token);
+    if (service === 'todoist') setTodoistTokenState(token);
+    setModal(null);
+  };
+
+  const disconnect = service => {
+    if (service === 'google') { clearGoogleToken(); setGoogleToken(null); }
+    if (service === 'todoist') { localStorage.removeItem(LS.todoistToken); setTodoistTokenState(''); }
+  };
+
+  const greeting = ()=>{
+    const h=new Date().getHours();
+    if(h<12) return `Good morning, ${tweaks.name}.`;
+    if(h<17) return `Good afternoon, ${tweaks.name}.`;
+    return `Good evening, ${tweaks.name}.`;
+  };
+
+  const today=new Date();
+  const dateStr=today.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+  const dayStr=today.toLocaleDateString('en-US',{weekday:'long'});
+
+  const openGoogle=()=>setModal('google');
+
+  return(
+    <>
+      <div className="dash-shell">
+        <header className="dash-topbar">
+          <div className="dash-date">{dayStr} · {dateStr}</div>
+          <div className="dash-greeting">{greeting()}</div>
+          <Clock/>
+        </header>
+        <main className="dash-main">
+          <div className="dash-grid">
+            <ZerodhaCard onSetup={()=>setModal('zerodha')}/>
+            <GoalsCard/>
+            <TodoistCard todoistToken={todoistToken} onConnect={()=>setModal('todoist')}/>
+            <GmailCard googleToken={googleToken} onConnect={()=>setModal('google')}/>
+            {tweaks.showCalendar&&<CalendarCard/>}
+            <JournalCard/>
+          </div>
+        </main>
+      </div>
+
+      {modal&&modal!=='zerodha'&&(
+        <ConnectModal
+          service={modal}
+          onClose={()=>setModal(null)}
+          onConnected={handleConnected}
+        />
+      )}
+      {modal==='zerodha'&&(
+        <ZerodhaModal
+          onClose={()=>setModal(null)}
+          onConnected={()=>{ setModal(null); }}
+        />
+      )}
+
+      {showTweaks&&(
+        <TweaksPanel onClose={()=>{setShowTweaks(false);window.parent.postMessage({type:'__edit_mode_dismissed'},'*');}}>
+          <TweakSection title="Identity">
+            <TweakText label="Your name" value={tweaks.name} onChange={v=>setTweak('name',v)}/>
+          </TweakSection>
+          <TweakSection title="Appearance">
+            <TweakToggle label="Dark mode" value={tweaks.darkMode} onChange={v=>setTweak('darkMode',v)}/>
+            <TweakToggle label="Show calendar widget" value={tweaks.showCalendar} onChange={v=>setTweak('showCalendar',v)}/>
+          </TweakSection>
+          <TweakSection title="Connections">
+            <TweakButton label="Zerodha Kite"
+              action={isZTokenValid()?'● Connected — disconnect':'Set up'}
+              onClick={()=>{ if(isZTokenValid()){zClear(); setShowTweaks(false);} else setModal('zerodha'); }}/>
+            <TweakButton label="Gmail"
+              action="● Connected via MCP"
+              onClick={()=>{}}/>
+            <TweakButton label="Google Calendar"
+              action="● Connected via MCP"
+              onClick={()=>{}}/>
+            <TweakButton label="Todoist"
+              action={todoistToken?'● Connected — disconnect':'Connect'}
+              onClick={()=>todoistToken?disconnect('todoist'):setModal('todoist')}/>
+          </TweakSection>
+        </TweaksPanel>
+      )}
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<Root/>);
+</script>
+</body>
+</html>
